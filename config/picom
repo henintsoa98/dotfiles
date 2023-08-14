@@ -1,0 +1,8 @@
+opacity-rule = [
+  "95:class_g = 'UXTerm' && focused",
+  "80:class_g = 'UXTerm' && !focused",
+  "95:class_g = 'Firefox-esr' && focused",
+  "80:class_g = 'Firefox-esr' && !focused",
+  "100:class_g = 'vlc' && focused",
+  "80:class_g = 'vlc' && !focused"
+];

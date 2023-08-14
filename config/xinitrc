@@ -1,0 +1,7 @@
+xrdb ~/.Xresources
+
+~/.fehbg &
+picom &
+i3lock -c 333333 &
+polybar &
+exec i3

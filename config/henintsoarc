@@ -1,0 +1,16 @@
+#!/bin/bash
+
+alias matlab="/usr/local/MATLAB/R2018b/bin/matlab"
+alias git1="git clone --depth 1"
+
+_XHOST_STATUS=$(xhost | awk '{print $3}')
+
+if [[ "$_XHOST_STATUS" == "enabled," ]]
+then
+	xhost +
+fi
+
+if [[ ! $DISPLAY ]]
+then
+	startx
+fi
