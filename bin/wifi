@@ -1,0 +1,21 @@
+#!/bin/bash
+
+source color
+
+DEVICE=$(/usr/sbin/iwconfig |grep IEEE |awk '{print $1}')
+
+if [[ "$1" == "scan" ]]
+then
+	echo -e "\n$BYellow"
+	/usr/sbin/iwlist $DEVICE scan |grep ESSID |sed "s/\"/ /g" |awk '{print $2}'
+	echo -e "$Reset"
+	exit
+fi
+
+if [[ "$1" == "connect" ]]
+then
+	echo -e "\n$BRed\tenter password : $Reset"
+	read password
+	nmcli d wifi connect $2 password $password
+	exit
+fi	
