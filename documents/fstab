@@ -1,0 +1,4 @@
+# mount drive
+/dev/nvme0n1p6 /mnt/500GB ext4 defaults 0 2
+# mount iso
+/root/debian-12.0.0-amd64-DVD-1.iso /mnt/debian iso9660 loop 0 0
