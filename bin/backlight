@@ -1,0 +1,52 @@
+#!/bin/bash
+
+source color
+
+BRIGHTNESS="1 10 20 30 40 50 60 70 80 90 100 146 234 336 456 602 792 1058 1515"
+
+VALUE=$(cat /sys/class/backlight/intel_backlight/actual_brightness)
+
+
+PREV=1
+ACTUAL=1
+FUTURE=1
+
+
+for NEXT in $BRIGHTNESS
+do
+	if [[ $NEXT -lt 10 ]]
+	then
+		continue
+	fi
+	if [[ $VALUE -eq 1515 ]]
+	then
+		if [[ "$1" == "+" ]]
+		then
+			FUTURE=1515
+			continue
+		fi
+		if [[ "$1" == "-" ]]
+		then
+			FUTURE=1058
+			continue
+		fi
+	fi
+	
+	if [[ $VALUE -eq $ACTUAL ]]
+	then
+		if [[ "$1" == "+" ]]
+		then
+			FUTURE=$NEXT
+		fi
+		if [[ "$1" == "-" ]]
+		then
+			FUTURE=$PREV
+		fi
+	fi
+
+	PREV=$ACTUAL
+	ACTUAL=$NEXT
+done
+
+echo $FUTURE > /sys/class/backlight/intel_backlight/brightness
+echo -e "\n$BRed\tBACKLIGHT : $BYellow$FUTURE$BRed/1515$Reset"
