@@ -26,6 +26,7 @@ then
  	sudo su -c "apt install firefox-esr vlc"
   	sudo su -c "apt install lxd"
    	sudo su -c "apt install docker.io"
+	# sudo su -c "apt install usbutils"
  
 	sudo su -c "/usr/sbin/usermod -aG sudo,lxd $USER"
 	sudo su -c "sed -i \"s#^ExecStart#ExecStart=-/sbin/agetty -a $USER --noclear %I \$TERM\n\#ExecStart#\" /etc/systemd/system/getty.target.wants/getty@tty1.service"
