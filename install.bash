@@ -6,8 +6,10 @@ fi
 
 sudo echo "cool"
 if [[ "$1" == "setup" || "$1" == "update" ]]
-sudo su -c "cp bin/* /usr/local/bin/"
-sudo su -c "chmod +x /usr/local/bin/*"
+then
+	sudo su -c "cp bin/* /usr/local/bin/"
+	sudo su -c "chmod +x /usr/local/bin/*"
+fi
 
 if [[ "$1" == "setup" || "$1" == "update" || "$1" == "container" ]]
 then
