@@ -51,6 +51,7 @@ then
 	
 	echo ""
 	echo "Hello :D"
+ 	echo "Enter to zsh now"
 	exit
 fi
 
@@ -95,6 +96,7 @@ then
 	
 	echo ""
 	echo "Hello :D"
+ 	echo "Enter to zsh now"
 fi
 
 if [[ "$1" == "update" ]]
