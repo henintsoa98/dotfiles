@@ -5,7 +5,7 @@ then
 fi
 
 sudo echo "cool"
-
+if [[ "$1" == "setup" || "$1" == "update" ]]
 sudo su -c "cp bin/* /usr/local/bin/"
 sudo su -c "chmod +x /usr/local/bin/*"
 
@@ -19,15 +19,20 @@ fi
 
 if [[ "$1" == "setup" ]]
 then
-	sudo su -c "apt install sudo vim xorg xserver-xorg-video-intel zsh build-essential git curl fonts-hack firefox-esr i3 vlc network-manager alsa-utils feh sshfs lxd picom bc polybar"
-
+	sudo su -c "apt install sudo vim zsh build-essential git curl network-manager alsa-utils sshfs"
+	sudo su -c "apt install xorg xserver-xorg-video-intel fonts-hack i3 feh  picom bc polybar"
+ 	sudo su -c "apt install firefox-esr vlc"
+  	sudo su -c "apt install lxd"
+   	sudo su -c "apt install docker.io"
+ 
 	sudo su -c "/usr/sbin/usermod -aG sudo,lxd $USER"
 	sudo su -c "sed -i \"s#^ExecStart#ExecStart=-/sbin/agetty -a $USER --noclear %I \$TERM\n\#ExecStart#\" /etc/systemd/system/getty.target.wants/getty@tty1.service"
 fi
 
 if [[ "$1" == "container" ]]
 then
-	sudo -su -c "apt install build-essential zsh git curl sshfs openssh-server openssh-client"
+	sudo su -c "apt install zsh git curl sshfs openssh-server openssh-client"
+ 	sudo su -c "build-essential"
 	rm -rf $HOME/.oh-my-zsh
 	echo "After entering into zsh shell (with oh-my-zsh) : 'exit' zsh to finish installation"
 	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
