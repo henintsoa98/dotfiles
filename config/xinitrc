@@ -1,7 +1,10 @@
 xrdb ~/.Xresources
 
+# xsetroot -solid "#123" &
+
+xset -b &
 ~/.fehbg &
-picom &
+# picom &
 i3lock -c 333333 &
 polybar &
 exec i3
