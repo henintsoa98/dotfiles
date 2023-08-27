@@ -66,7 +66,7 @@ then
 	mkdir -p $HOME/.config/picom
 	mkdir -p $HOME/.config/polybar
 
-	cp wallpaper/rx7c.jpg $HOME/Pictures
+	cp wallpaper/Wallpaper.png $HOME/Pictures
 	cp documents/lxc_gui $HOME/Documents
 
  	cd fonts
