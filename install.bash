@@ -60,6 +60,7 @@ if [[ "$1" == "setup" || "$1" == "update" ]]
 then
 	mkdir -p $HOME/Pictures
 	mkdir -p $HOME/Documents
+ 	mkdir -p $HOME/.fonts
 	mkdir -p $HOME/.config
 	mkdir -p $HOME/.config/i3
 	mkdir -p $HOME/.config/picom
@@ -67,6 +68,11 @@ then
 
 	cp wallpaper/rx7c.jpg $HOME/Pictures
 	cp documents/lxc_gui $HOME/Documents
+
+ 	cd fonts
+  	tar -xJf SauceCodeProNerdFontMono.tar.xz
+   	mv *.ttf $HOME/.fonts
+  	cd ..
 
 	cp config/feh $HOME/.fehbg
 	chmod 754 $HOME/.fehbg
@@ -78,6 +84,8 @@ then
 	cp config/i3 $HOME/.config/i3/config
 	cp config/picom $HOME/.config/picom/picom.conf
 	cp config/polybar $HOME/.config/polybar/config.ini
+
+  	
 fi
 
 if [[ "$1" == "setup" ]]
