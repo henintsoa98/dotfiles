@@ -21,7 +21,7 @@ fi
 
 if [[ "$1" == "setup" ]]
 then
-	sudo su -c "apt install sudo vim zsh build-essential git curl network-manager alsa-utils sshfs"
+	sudo su -c "apt install sudo vim zsh build-essential git curl network-manager alsa-utils sshfs command-not-found"
 	sudo su -c "apt install xorg xserver-xorg-video-intel fonts-hack i3 feh  picom bc polybar"
  	sudo su -c "apt install firefox-esr vlc"
   	sudo su -c "apt install lxd"
@@ -34,7 +34,7 @@ fi
 
 if [[ "$1" == "container" ]]
 then
-	sudo su -c "apt install zsh git curl sshfs openssh-server openssh-client"
+	sudo su -c "apt install zsh git curl sshfs openssh-server openssh-client command-not-found"
  	sudo su -c "build-essential"
 	rm -rf $HOME/.oh-my-zsh
 	echo "After entering into zsh shell (with oh-my-zsh) : 'exit' zsh to finish installation"
@@ -46,7 +46,7 @@ then
 	cp config/bureau_mod.zsh-theme $HOME/.oh-my-zsh/custom/themes/
 
 	sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="bureau_mod"/' $HOME/.zshrc
-	sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-completions zsh-syntax-highlighting web-search)/' $HOME/.zshrc
+	sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-completions zsh-syntax-highlighting web-search lxd command-not-found)/' $HOME/.zshrc
 	touch $HOME/.henintsoarc
 	echo "source \$HOME/.henintsoarc" | tee -a $HOME/.zshrc
 	
