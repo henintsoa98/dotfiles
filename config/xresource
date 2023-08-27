@@ -27,10 +27,25 @@
 *color7:    #CCCCCC
 *color15:   #F8F8F2
 
-uxterm*faceName: Hack Nerd Font Mono
-uxterm*faceSize: 16
-uxterm*cursorBlink: true
+URxvt.perl-ext-common:  font-size
+URxvt.clipboard.autocopy: true
+URxvt.keysym.C-Down:  font-size:decrease
+URxvt.keysym.C-Up:    font-size:increase
+URxvt.scrollBar: false
+URxvt.cursorBlink: 1
+!URxvt.cursorUnderline: 1
 
-xterm*faceName: Hack Nerd Font Mono
-xterm*faceSize: 16
+xterm*faceName: SauceCodePro Nerd Font Mono
+xterm*faceSize: 24
 xterm*cursorBlink: true
+
+xterm*saveLines: 10240
+xterm*eightBitInput: false
+xterm*eightBitOutput: true
+
+xterm.vt100.translations: #override \n\
+	<Btn1Up>: select-end(PRIMARY, CLIPBOARD, CUT_BUFFER0) \n\
+	Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+	Ctrl Shift <Key>V: insert-selection(CLIPBOARD) \n\
+	Ctrl <Key>Prior : smaller-vt-font() \n\
+	Ctrl <Key>Next : larger-vt-font()
