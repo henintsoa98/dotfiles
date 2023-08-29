@@ -1,0 +1,159 @@
+(require 'package)
+(package-initialize)
+(add-to-list 'package-archives
+	     '("melpa" . "https://melpa.org/packages/") t)
+
+
+
+;;; no startup screen
+(setq inhibit-startup-screen t)
+
+
+
+;;; set an backup file
+(setq backup-directory-alist '(("." . "~/.emacs_saves")))
+
+
+
+;;; set clipboard to interact with host
+(setq x-select-enable-clipboard t)
+
+
+
+;;; show fancy auto complete
+(ido-mode 1)
+
+
+
+;;; set default font
+(set-frame-font "SauceCodePro Nerd Font Mono-24")
+
+
+
+;;; set frame name
+;(setq frame-title-format "hello")
+
+
+
+;;; display time
+(setenv "TZ" "Indian/Antananarivo")
+(display-time-mode 1)
+
+
+
+;;; hide menu and tool bar
+(menu-bar-mode 0)
+(tool-bar-mode 0)
+(scroll-bar-mode 0)
+
+
+
+;;; line and column number
+(column-number-mode 1)
+(global-display-line-numbers-mode 1)
+(setq display-line-numbers-type 'relative)
+(set-face-attribute 'line-number-current-line nil :background "#000")
+(set-face-attribute 'line-number-current-line nil :foreground "#ff0")
+(set-face-attribute 'line-number nil :background "#222")
+(set-face-attribute 'line-number nil :foreground "#555")
+
+
+
+;;; indentation style
+(setq custom-tab-width 4)
+(setq c-default-style "linux"
+          c-basic-offset 4)
+(setq c-default-style
+      '((java-mode . "java") (other . "linux")))
+
+
+
+;;; tabulation
+;; Two callable functions for enabling/disabling tabs in Emacs
+(defun disable-tabs () (setq indent-tabs-mode nil))
+(defun enable-tabs  ()
+  (local-set-key (kbd "TAB") 'tab-to-tab-stop)
+  (setq indent-tabs-mode t)
+  (setq tab-width custom-tab-width))
+;; Hooks to Enable/disable Tabs
+(add-hook 'prog-mode-hook 'enable-tabs)
+(add-hook 'lisp-mode-hook 'disable-tabs)
+(add-hook 'emacs-lisp-mode-hook 'disable-tabs)
+;; Language-Specific Tweaks
+(setq-default python-indent-offset custom-tab-width) ;; Python
+(setq-default js-indent-level custom-tab-width)      ;; Javascript
+;; Making electric-indent behave sanely
+(setq-default electric-indent-inhibit t)
+;; backspace erase the tab instead of space
+(setq backward-delete-char-untabify-method 'hungry)
+;; (OPTIONAL) Shift width for evil-mode users
+;; For the vim-like motions of ">>" and "<<".
+(setq-default evil-shift-width custom-tab-width)
+;; tab as "|"
+(setq whitespace-style '(face tabs tab-mark trailing))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(whitespace-tab ((t (:foreground "#636363")))))
+(setq whitespace-display-mappings
+  '((tab-mark 9 [124 9] [92 9]))) ; 124 is the ascii ID for '\|'
+(global-whitespace-mode) ; Enable whitespace mode everywhere
+; END TABS CONFIG
+
+
+
+;;; my default keybinding
+(global-set-key (kbd "<f5>") 'compile)
+(global-set-key (kbd "<f6>") 'recompile)
+
+
+
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defvar rc/package-contents-refreshed nil)
+(defun rc/package-refresh-contents-once ()
+  (when (not rc/package-contents-refreshed)
+    (setq rc/package-contents-refreshed t)
+    (package-refresh-contents)))
+(defun rc/require-one-package (package)
+  (when (not (package-installed-p package))
+    (rc/package-refresh-contents-once)
+    (package-install package)))
+(defun rc/require (&rest packages)
+  (dolist (package packages)
+    (rc/require-one-package package)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; multiple cursors
+(rc/require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->")         'mc/mark-next-like-this)
+(global-set-key (kbd "C-<")         'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<")     'mc/mark-all-like-this)
+(global-set-key (kbd "C-\"")        'mc/skip-to-next-like-this)
+(global-set-key (kbd "C-:")         'mc/skip-to-previous-like-this)
+;;; set fancy execute command
+(rc/require 'smex)
+(global-set-key (kbd "M-x")         'smex)
+(global-set-key (kbd "M-X")         'smex-major-mode-commands)
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+;;; yasnippet
+(rc/require 'yasnippet)
+(require 'yasnippet)
+(setq yas/triggers-in-field nil)
+(setq yas-snippet-dirs '("~/.emacs.snippets/"))
+(yas-global-mode 1)
+;;; company (on fly helper)
+(rc/require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes '(manoj-dark))
+ '(package-selected-packages '(multiple-cursors)))
+
+
