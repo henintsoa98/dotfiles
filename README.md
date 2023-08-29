@@ -10,7 +10,7 @@ cd dotfiles
 For installation, use **setup**, to update the installation use **update**\
 For container setup, use **container**, to update container, also use **container**, not **update**\
 \
-Setup sudo firstly\
+Setup sudo firstly, the user need to be in group sudo\
 then
 ```
 bash install.bash setup
