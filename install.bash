@@ -99,32 +99,46 @@ then
  	echo -e "\033[1;33mEnter to zsh now\033[0m"
 fi
 
+################################################################################
+# SETUP GUI ####################################################################
+################################################################################
 if [[ "$1" == "setup" || "$1" == "update" ]]
 then
 	mkdir -p $HOME/Pictures
-	mkdir -p $HOME/Documents
- 	mkdir -p $HOME/.fonts
 	mkdir -p $HOME/.config
 	mkdir -p $HOME/.config/i3
 	mkdir -p $HOME/.config/picom
 	mkdir -p $HOME/.config/polybar
 
 	cp wallpaper/Wallpaper.png $HOME/Pictures
-	cp documents/lxc_gui $HOME/Documents
-
- 	cd fonts
-  	tar -xJf SauceCodeProNerdFontMono.tar.xz
-   	mv *.ttf $HOME/.fonts
-  	cd ..
 
 	cp config/feh $HOME/.fehbg
 	chmod 754 $HOME/.fehbg
 
 	cp config/xinitrc $HOME/.xinitrc
 	cp config/xresource $HOME/.Xresource
-	cp config/henintsoarc $HOME/.henintsoarc
 
 	cp config/i3 $HOME/.config/i3/config
 	cp config/picom $HOME/.config/picom/picom.conf
 	cp config/polybar $HOME/.config/polybar/config.ini	
+fi
+
+################################################################################
+# SETUP LAST CONFIG ############################################################
+################################################################################
+if [[ "$1" == "setup" || "$1" == "update" || "$1" == "container" ]]
+then
+	mkdir -p $HOME/Documents
+ 	mkdir -p $HOME/.fonts
+
+ 	cd fonts
+  	tar -xJf SauceCodeProNerdFontMono.tar.xz
+   	mv *.ttf $HOME/.fonts
+  	cd ..
+
+	cp config/henintsoarc $HOME/.henintsoarc
+ 	cp documents/lxc_gui $HOME/Documents
+	cp config/emacs $HOME/.emacs
+
+ 	echo -e "\033[1;31m# SETUP FINISHED #\033[0m"; sleep 2
 fi
