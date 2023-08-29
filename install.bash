@@ -116,7 +116,7 @@ then
 	chmod 754 $HOME/.fehbg
 
 	cp config/xinitrc $HOME/.xinitrc
-	cp config/xresource $HOME/.Xresource
+	cp config/xresource $HOME/.Xresources
 
 	cp config/i3 $HOME/.config/i3/config
 	cp config/picom $HOME/.config/picom/picom.conf
