@@ -20,10 +20,16 @@
 background = #282A2E
 background-alt = #373B41
 foreground = #C5C8C6
-primary = #FFFF00
+primary = #ff00ff
+;primary = magenta
 secondary = #8ABEB7
 alert = #A54242
 disabled = #707880
+
+white = FFFFFF
+mono = FF6600
+highlight = #00ffff
+;highlight = cyan
 
 [bar/example]
 width = 100%
@@ -32,7 +38,8 @@ radius = 6
 
 ; dpi = 96
 
-background = ${colors.background}
+;background = ${colors.background}
+background = #202020
 foreground = ${colors.foreground}
 
 line-size = 3pt
@@ -45,10 +52,12 @@ padding-right = 1
 
 module-margin = 1
 
-separator = |
-separator-foreground = ${colors.disabled}
+separator = | 
+separator-foreground = ${colors.white}
 
 font-0 = hack;2
+font-1 = hack:weight=bold;2
+font-3 = hack;2
 
 modules-left = xworkspaces xwindow
 modules-right = filesystem xkeyboard memory cpu wlan eth alsa battery date
@@ -70,8 +79,9 @@ enable-ipc = true
 type = internal/xworkspaces
 
 label-active = %name%
+label-active-font = 2
 label-active-background = ${colors.background-alt}
-label-active-underline= ${colors.primary}
+label-active-underline= #ffff00
 label-active-padding = 1
 
 label-occupied = %name%
@@ -88,6 +98,8 @@ label-empty-padding = 1
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:60:...%
+label-font = 2
+label-foreground = ${colors.mono}
 
 [module/filesystem]
 type = internal/fs
@@ -95,7 +107,11 @@ interval = 25
 
 mount-0 = /
 
-label-mounted = %{F#FFFF00}%mountpoint%%{F-} %percentage_used%%
+format-mounted-prefix = %{F#FF00FF}/ %{F-}
+
+label-mounted = %percentage_used%%
+label-mounted-foreground = ${colors.highlight}
+label-mounted-font = 2
 
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.disabled}
@@ -117,12 +133,14 @@ type = internal/xkeyboard
 blacklist-0 = num lock
 
 label-layout = %layout%
-label-layout-foreground = ${colors.primary}
+label-layout-foreground = ${colors.mono}
 
 label-indicator-padding = 2
 label-indicator-margin = 1
 label-indicator-foreground = ${colors.background}
 label-indicator-background = ${colors.secondary}
+
+label-layout-font = 2
 
 [module/memory]
 type = internal/memory
@@ -130,6 +148,8 @@ interval = 2
 format-prefix = "RAM "
 format-prefix-foreground = ${colors.primary}
 label = %percentage_used:2%%
+label-foreground = ${colors.highlight}
+label-font = 2
 
 [module/cpu]
 type = internal/cpu
@@ -137,23 +157,25 @@ interval = 2
 format-prefix = "CPU "
 format-prefix-foreground = ${colors.primary}
 label = %percentage:2%%
+label-foreground = ${colors.highlight}
+label-font = 2
 
 [network-base]
 type = internal/network
 interval = 5
 format-connected = <label-connected>
 format-disconnected = <label-disconnected>
-label-disconnected = %{F#FFFF00}%ifname%%{F#707880} disconnected
+label-disconnected = %{F#FF00FF}%ifname%%{F#707880} disconnected
 
 [module/wlan]
 inherit = network-base
 interface-type = wireless
-label-connected = %{F#FFFF00}%ifname%%{F-} %essid% %local_ip%
+label-connected = %{F#FF00FF}%ifname%%{F#00FFFF} %essid% %local_ip%
 
 [module/eth]
 inherit = network-base
 interface-type = wired
-label-connected = %{F#FFFF00}%ifname%%{F-} %local_ip%
+label-connected = %{F#FF00FF}%ifname%%{F#00FFFF} %local_ip%
 
 [module/date]
 type = internal/date
@@ -163,7 +185,8 @@ date = %H:%M
 date-alt = %Y-%m-%d %H:%M:%S
 
 label = %date%
-label-foreground = ${colors.primary}
+label-foreground = ${colors.mono}
+label-font = 2
 
 [settings]
 screenchange-reload = true
@@ -178,11 +201,13 @@ type = internal/battery
 battery = BAT0
 adapter = AC
 
-format-charging = <label-charging>
-format-discharging = <label-discharging>
+format-charging = %{F#FF00FF}BAT+%{F#00FFFF} <label-charging>
+format-discharging = %{F#FF00FF}BAT-%{F#00FFFF} <label-discharging>
 
-label-charging = %{F#FFFF00}BAT+%{F-} %percentage%%
-label-discharging = %{F#FFFF00}BAT-%{F-} %percentage%%
+label-charging = %percentage%%
+label-discharging = %percentage%%
+label-charging-font = 2
+label-discharging-font = 2
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [module/alsa]
@@ -201,7 +226,9 @@ mapped = true
 
 interval = 5
 
-format-volume = %{F#FFFF00}alsa%{F-} <ramp-volume> <label-volume>
+format-volume = %{F#FF00FF}alsa%{F#00FFFF} <ramp-volume> <label-volume>
+
+label-volume-font = 2
 
 label-muted = muted
 label-muted-foreground = #66
