@@ -1,6 +1,14 @@
 # USAGE
-For installation, use **setup**, **update** to update the installation\
-For container setup, use **container**, and to update container, also use **container**, not **update**\
+Firstly :
+```
+cd
+mkdir INSTALL
+cd INSTALL
+git clone --depth 1 https://github.com/henintsoa98/dotfiles
+cd dotfiles
+```
+For installation, use **setup**, to update the installation use **update**\
+For container setup, use **container**, to update container, also use **container**, not **update**\
 \
 Setup sudo firstly\
 then
