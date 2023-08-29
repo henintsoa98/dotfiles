@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "usage : $0 <SCREEN> <X RESOLUTION> <Y RESOLUTION> <REFRESH RATE>"
+
+NEWMODE=$(gtf $2 $3 $4 | grep Modeline | sed "s#Modeline ##")
+MODE=$(echo $NEWMODE | awk '{print $1}')
+
+xrandr --newmode $NEWMODE
+xrandr --addmode $1 $MODE
+xrandr --output $1 --mode $MODE
