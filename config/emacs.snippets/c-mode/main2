@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: main2
+# key: main2
+# --
+
+int main (int argc, char **argv)
+{
+	$0
+
+	return 0;
+}
