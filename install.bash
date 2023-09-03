@@ -139,6 +139,7 @@ then
 	cp config/henintsoarc $HOME/.henintsoarc
  	cp documents/lxc_gui $HOME/Documents
 	cp config/emacs $HOME/.emacs
+ 	cp -r config/emacs.snippets $HOME/.emacs.snippets
 
  	echo -e "\033[1;31m# SETUP FINISHED #\033[0m"; sleep 2
 fi
