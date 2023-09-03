@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: switch
+# key: switch
+# --
+
+switch (${1:variable})
+{
+case ${3:value}:
+	$0
+	break;
+default:
+	${2:// default}
+}
