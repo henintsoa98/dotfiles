@@ -30,11 +30,6 @@
 
 
 
-;;; set frame name
-;(setq frame-title-format "hello")
-
-
-
 ;;; display time
 (setenv "TZ" "Indian/Antananarivo")
 (display-time-mode 1)
@@ -45,6 +40,14 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
+
+
+
+;;; switch to last buffer
+(defun switch-to-last-buffer ()
+  (interactive)
+  (switch-to-buffer nil))
+(global-set-key (kbd "<f7>") 'switch-to-last-buffer)
 
 
 
@@ -147,13 +150,3 @@
 ;;; company (on fly helper)
 (rc/require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(manoj-dark))
- '(package-selected-packages '(multiple-cursors)))
-
-
