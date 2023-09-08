@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
-# name: include
-# key: include
+# name: inc
+# key: inc
 # --
 
-#include<${1:header}.h>
+#include<${1:header}
 $0
