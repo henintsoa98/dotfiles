@@ -115,9 +115,24 @@ _1LEFT="$_USERNAME $_PATH"
 #_1RIGHT="[%*]"
 _1RIGHT="[%{$fg_bold[red]%}%l%{$reset_color%}]"
 
+function afmagic_dashes {
+  # check either virtualenv or condaenv variables
+  local python_env_dir="${VIRTUAL_ENV:-$CONDA_DEFAULT_ENV}"
+  local python_env="${python_env_dir##*/}"
+
+  # if there is a python virtual environment and it is displayed in
+  # the prompt, account for it when returning the number of dashes
+  if [[ -n "$python_env" && "$PS1" = *\(${python_env}\)* ]]; then
+    echo $(( COLUMNS - ${#python_env} - 3 ))
+  else
+    echo $COLUMNS
+  fi
+}
+
 bureau_precmd () {
   _1SPACES=`get_space $_1LEFT $_1RIGHT`
-  print
+  _DASH="${FG[237]}\${(l.\$(afmagic_dashes)..-.)}%{$reset_color%}"
+  print -P "$_DASH"
   print -rP "$_1LEFT$_1SPACES$_1RIGHT"
 }
 
