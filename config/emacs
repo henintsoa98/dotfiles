@@ -1,3 +1,4 @@
+;;; repo setup
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives
@@ -26,13 +27,39 @@
 
 
 ;;; set default font
-(set-frame-font "SauceCodePro Nerd Font Mono-24")
+(set-frame-font "SauceCodePro Nerd Font Mono-20")
+
+
+
+;;; show battery precentage
+(display-battery-mode 1)
+
+
+
+;;; select theme
+;(load-theme 'doom-henintsoa)
+;(setq custom-enabled-themes '(doom-henintsoa))
+
+
+
+;;; color c function like keyword
+(font-lock-add-keywords 'c-mode
+    '(("\\<\\([a-zA-Z_]*\\) *("  1 font-lock-keyword-face)))
+
 
 
 
 ;;; display time
 (setenv "TZ" "Indian/Antananarivo")
+(setq display-time-format "%I:%M%p - %d/%m")
+(setq display-time-default-load-average nil)
 (display-time-mode 1)
+
+
+
+;;; show hostname on modeline
+(defvar my-hostname (concat " " (system-name)))
+(setq global-mode-string (append global-mode-string '(my-hostname)))
 
 
 
@@ -113,8 +140,8 @@
 
 
 
-;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; package function
 (defvar rc/package-contents-refreshed nil)
 (defun rc/package-refresh-contents-once ()
   (when (not rc/package-contents-refreshed)
@@ -150,3 +177,10 @@
 ;;; company (on fly helper)
 (rc/require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
+;;; custome modeline
+(rc/require 'doom-modeline)
+(rc/require 'doom-themes)
+(require 'doom-modeline)
+(doom-modeline-mode 1)
+(setq doom-modeline-enable-word-count t)
+(setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode c-mode emacs-lisp-mode))
