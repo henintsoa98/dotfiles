@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: include2
-# key: include2
+# name: inc2
+# key: inc2
 # --
 
 #include"${1:header}.h"
