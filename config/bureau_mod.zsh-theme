@@ -97,7 +97,7 @@ else
 #  _LIBERTY="%{$fg[green]%}$"
   _LIBERTY="$"
 fi
-_USERNAME="$_USERNAME%{$reset_color%}@%{$fg[yellow]%}%m%{$reset_color%}"
+_USERNAME="$_USERNAME%{$reset_color%}@%{$fg[yellow]%}host[lenovo]%{$reset_color%}"
 #_LIBERTY="$_LIBERTY%{$reset_color%}"
 
 
@@ -132,7 +132,7 @@ function afmagic_dashes {
 bureau_precmd () {
   _1SPACES=`get_space $_1LEFT $_1RIGHT`
   _DASH="${FG[237]}\${(l.\$(afmagic_dashes)..-.)}%{$reset_color%}"
-  print -P "$_DASH"
+  print -rP "$_DASH"
   print -rP "$_1LEFT$_1SPACES$_1RIGHT"
 }
 
