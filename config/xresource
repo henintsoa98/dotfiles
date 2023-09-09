@@ -1,6 +1,7 @@
 ! terminal colours
 *foreground:#CCCCCC
-*background:#1B1D1E
+!*background:#1B1D1E
+*background:#000000
 
 !black darkgray
 *color0:    #1B1D1E
@@ -39,7 +40,7 @@ xterm*faceName: SauceCodePro Nerd Font Mono
 xterm*faceSize: 24
 xterm*cursorBlink: true
 
-xterm*saveLines: 10240
+*saveLines: 10240
 xterm*eightBitInput: false
 xterm*eightBitOutput: true
 
