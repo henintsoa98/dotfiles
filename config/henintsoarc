@@ -15,3 +15,4 @@ if [[ ! $DISPLAY ]]
 then
 	startx
 fi
+echo "WELCOME 😎"
