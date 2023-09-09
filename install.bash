@@ -96,7 +96,7 @@ then
 		sudo su -c "apt install emacs-nox"
 		echo -e "\033[1;33mInstall emacs with gui? (yn)\033[0m"
 		read CHOICE
-		if [[ "$CHOICE" == "y"]]
+		if [[ "$CHOICE" == "y" ]]
 		then
 			sudo su -c "apt install emacs"
 		fi
