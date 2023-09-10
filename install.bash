@@ -47,12 +47,24 @@ then
 	if [[ "$CHOICE" == "y" ]]
 	then
 		sudo su -c "apt install build-essential"
+		echo -e "\033[1;33mInstall debugger gdb? (yn)\033[0m"
+		read CHOICE
+		if [[ "$CHOICE" == "y" ]]
+		then
+			sudo su -c "apt install gdb"
+		fi
 	fi
 	echo -e "\033[1;33mInstall clang? (yn)\033[0m"
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
 		sudo su -c "apt install clang"
+		echo -e "\033[1;33mInstall debugger lldb? (yn)\033[0m"
+		read CHOICE
+		if [[ "$CHOICE" == "y" ]]
+		then
+			sudo su -c "apt install lldb"
+		fi
 	fi
 	echo -e "\033[1;31m# INSTALL GUI #\033[0m"; sleep 2
 	echo -e "\033[1;33mInstall i3? (yn)\033[0m"
@@ -137,12 +149,24 @@ then
 	if [[ "$CHOICE" == "y" ]]
 	then
 		sudo su -c "apt install build-essential"
+		echo -e "\033[1;33mInstall debugger gdb? (yn)\033[0m"
+		read CHOICE
+		if [[ "$CHOICE" == "y" ]]
+		then
+			sudo su -c "apt install gdb"
+		fi
 	fi
 	echo -e "\033[1;33mInstall clang? (yn)\033[0m"
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
 		sudo su -c "apt install clang"
+		echo -e "\033[1;33mInstall debugger lldb? (yn)\033[0m"
+		read CHOICE
+		if [[ "$CHOICE" == "y" ]]
+		then
+			sudo su -c "apt install lldb"
+		fi
 	fi
 	echo -e "\033[1;31m# INSTALL EMACS EDITOR #\033[0m"; sleep 2
 	echo -e "\033[1;33mInstall emacs? (yn)\033[0m"
@@ -154,7 +178,7 @@ then
 		read CHOICE
 		if [[ "$CHOICE" == "y" ]]
 		then
-			sudo su -c "apt install emacs"
+			sudo su -c "apt install emacs emacs-gtk"
 		fi
 	fi
 fi
