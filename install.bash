@@ -59,7 +59,8 @@ then
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
-		sudo su -c "apt install bc feh i3 picom polybar rxvt-unicode xorg xserver-xorg-video-intel"
+		sudo su -c "apt install bc feh i3 i3lock picom polybar rxvt-unicode suckless-tools xorg"
+  		sudo su -c "apt install xserver-xorg-video-intel"
 	fi
 	echo -e "\033[1;31m# INSTALL FILE MANAGER #\033[0m"; sleep 2
 	echo -e "\033[1;33mInstall pcmanfm? (yn)\033[0m"
