@@ -215,6 +215,7 @@ if [[ "$1" == "setup" || "$1" == "update" ]]
 then
 	mkdir -p $HOME/Pictures
 	mkdir -p $HOME/.config
+	mkdir -p $HOME/.config/conky
 	mkdir -p $HOME/.config/i3
 	mkdir -p $HOME/.config/picom
 	mkdir -p $HOME/.config/polybar
@@ -228,6 +229,7 @@ then
 	cp config/xresource $HOME/.Xresources
 
 	cp config/i3 $HOME/.config/i3/config
+	cp config/picom $HOME/.config/conky/conky.conf
 	cp config/picom $HOME/.config/picom/picom.conf
 	cp config/polybar $HOME/.config/polybar/config.ini
 fi
