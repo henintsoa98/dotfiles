@@ -2,6 +2,7 @@ xrdb ~/.Xresources
 
 # xsetroot -solid "#123" &
 
+conky &
 xset -b &
 ~/.fehbg &
 # picom &
