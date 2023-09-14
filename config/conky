@@ -1,0 +1,85 @@
+conky.config = {
+    alignment = 'top_right',
+    background = true,
+    border_width = 1,
+    cpu_avg_samples = 2,
+    default_color = 'white',
+    default_outline_color = 'white',
+    default_shade_color = 'white',
+    double_buffer = true,
+    draw_borders = false,
+    draw_graph_borders = true,
+    draw_outline = false,
+    draw_shades = false,
+    extra_newline = false,
+    font = 'DejaVu Sans Mono:size=12',
+    gap_x = 30,
+    gap_y = 64,
+    minimum_height = 5,
+    minimum_width = 5,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_ncurses = false,
+    out_to_stderr = false,
+    out_to_x = true,
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_type = 'override',
+    show_graph_range = false,
+    show_graph_scale = false,
+    stippled_borders = 0,
+    update_interval = 1.0,
+    uppercase = false,
+    use_spacer = 'none',
+    use_xft = true,
+
+    own_window_transparent = true,
+}
+
+conky.text = [[
+${color white}SYSTEM ${hr 2}${color lightgrey}
+$sysname $kernel $alignr $machine
+Date $alignr ${time %d/%m/%y}
+Time $alignr ${time %H:%M:%S}
+Uptime $alignr ${uptime_short}
+
+${color white}NETWORK ${hr 2}${color lightgrey}
+wlp59s0 $alignr ${upspeed wlp59s0}+${downspeed wlp59s0}
+${upspeedgraph wlp59s0 36,}
+${downspeedgraph wlp59s0 36,}
+Total $alignr ${totalup wlp59s0}+${totaldown wlp59s0}
+${color white}IP ${hr 2}${color lightgrey}
+wlp59s0 $alignc ${addr wlp59s0}
+lxdbr0 $alignc ${addr lxdbr0}
+
+${color white}CPU ${hr 2}${color lightgrey}
+CPU  ${color yellow}${cpu cpu}% ${cpubar cpu}${color lightgrey}
+cpu1 ${cpu cpu1}% ${cpubar cpu1}
+cpu2 ${cpu cpu2}% ${cpubar cpu2}
+cpu3 ${cpu cpu3}% ${cpubar cpu3}
+cpu4 ${cpu cpu4}% ${cpubar cpu4}
+cpu5 ${cpu cpu5}% ${cpubar cpu5}
+cpu6 ${cpu cpu6}% ${cpubar cpu6}
+cpu7 ${cpu cpu7}% ${cpubar cpu7}
+cpu8 ${cpu cpu8}% ${cpubar cpu8}
+
+${color white}MEMORY ${hr 2}${color lightgrey}
+RAM $alignc ${color green}$mem/$memmax${color lightgrey} $alignr $memperc%
+${color green}$membar${color lightgrey}
+/ $alignc ${color cyan}${fs_used /}/${fs_size /}${color lightgrey} $alignr ${fs_used_perc /}%
+${color cyan}${fs_bar}${color lightgrey}
+
+${color white}DISK ${hr 2}${color lightgrey}
+r/w $alignr ${diskio_read}/${diskio_write}
+${diskiograph_read 36,}
+${diskiograph_write 36,}
+
+${color white}TOP ${hr 2} CPU/MEM${color lightgrey}
+Total : $alignr ${processes}
+${top name 1} $alignr ${top cpu 1}${top mem 1}
+${top name 2} $alignr ${top cpu 2}${top mem 2}
+${top name 3} $alignr ${top cpu 3}${top mem 3}
+${top name 4} $alignr ${top cpu 4}${top mem 4}
+${top name 5} $alignr ${top cpu 5}${top mem 5}
+]]
