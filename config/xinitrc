@@ -2,10 +2,11 @@ xrdb ~/.Xresources
 
 # xsetroot -solid "#123" &
 
-conky &
+unclutter -idle 2 &
 xset -b &
 ~/.fehbg &
 # picom &
 i3lock -c 333333 &
+eval 'sleep 1;while [ "$(pidof i3lock)" ]; do sleep 1; done; conky' &
 polybar &
 exec i3
