@@ -97,7 +97,7 @@ else
 #  _LIBERTY="%{$fg[green]%}$"
   _LIBERTY="$"
 fi
-_USERNAME="$_USERNAME%{$reset_color%}@%{$fg[yellow]%}host[lenovo]%{$reset_color%}"
+_USERNAME="$_USERNAME%{$reset_color%}@%{$fg[yellow]%}%m%{$reset_color%}"
 #_LIBERTY="$_LIBERTY%{$reset_color%}"
 
 
