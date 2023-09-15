@@ -193,7 +193,8 @@ bar {
 #        status_command i3status
 }
 
-gaps inner 24
+gaps inner 18
+gaps right 336
 client.focused #00ffff #00ffff #ffffff #ff00ff #00ffff
 default_border pixel 1
 default_floating_border pixel 1
