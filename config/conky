@@ -41,16 +41,16 @@ conky.text = [[
 ${color white}SYSTEM ${hr 2}${color lightgrey}
 $sysname $kernel $alignr $machine
 Date $alignr ${time %d/%m/%y}
-Time $alignr ${time %H:%M:%S}
+Time $alignr ${color orange}${time %H:%M:%S}${color lightgrey}
 Uptime $alignr ${uptime_short}
 
 ${color white}NETWORK ${hr 2}${color lightgrey}
 wlp59s0 $alignr ${upspeed wlp59s0}+${downspeed wlp59s0}
 ${upspeedgraph wlp59s0 36,}
 ${downspeedgraph wlp59s0 36,}
-Total $alignr ${totalup wlp59s0}+${totaldown wlp59s0}
+Total $alignr ${color white}${totalup wlp59s0}+${totaldown wlp59s0}
 ${color white}IP ${hr 2}${color lightgrey}
-wlp59s0 $alignc ${addr wlp59s0}
+wlp59s0 $alignc ${color orange}${addr wlp59s0}${color lightgrey}
 lxdbr0 $alignc ${addr lxdbr0}
 
 ${color white}CPU ${hr 2}${color lightgrey}
