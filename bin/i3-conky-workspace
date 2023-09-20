@@ -1,0 +1,19 @@
+#!/bin/bash
+
+CURRENT=$(xprop -root _NET_CURRENT_DESKTOP |sed "s#[A-Z_()= ]*##" || echo WAITING...)
+NAMES=$(xprop -root _NET_CURRENT_DESKTOP _NET_DESKTOP_NAMES |sed "s#[A-Z_(0-9) =]*##;s#\"##g;s#,##g" || echo WAITING...)
+
+I=0
+OUTPUT=""
+for NAME in $NAMES
+do
+	if [[ "$I" == "$CURRENT" ]]
+	then
+		OUTPUT="$OUTPUT [$NAME]"
+	else
+		OUTPUT="$OUTPUT $NAME"
+	fi
+	I=$(($I+1))
+done
+
+echo -n "$OUTPUT"

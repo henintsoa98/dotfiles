@@ -1,0 +1,16 @@
+#!/bin/bash
+
+X_ID=$(xprop -root _NET_ACTIVE_WINDOW |awk '{print $5}')
+if [[ $X_ID -ne 0x0 ]]
+then
+	X_NAME=$(xprop -id $X_ID WM_NAME |sed "s#^[A-Z_() =]*##;s#\"##g")
+else
+	X_NAME="WAITING..."
+fi
+
+if [[ $(echo $X_NAME |wc |awk '{print $3}') -gt 25 ]]
+then
+	echo $X_NAME |head -c 25 |sed "s#\$#...#"
+else
+	echo $X_NAME
+fi
