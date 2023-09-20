@@ -37,7 +37,7 @@ URxvt.cursorBlink: 1
 !URxvt.cursorUnderline: 1
 
 xterm*faceName: SauceCodePro Nerd Font Mono
-xterm*faceSize: 24
+xterm*faceSize: 16
 xterm*cursorBlink: true
 
 *saveLines: 10240
