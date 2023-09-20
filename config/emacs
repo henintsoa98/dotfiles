@@ -1,4 +1,4 @@
-;;; repo setup
+
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives
@@ -27,7 +27,7 @@
 
 
 ;;; set default font
-(set-frame-font "SauceCodePro Nerd Font Mono-20")
+(set-frame-font "SauceCodePro Nerd Font Mono-16")
 
 
 
@@ -48,6 +48,10 @@
 
 
 
+;;; refresh file to show external change (indent -pcs file.c -o file.c)
+(add-hook 'c-mode-hook 'auto-revert-mode)
+
+
 
 ;;; display time
 (setenv "TZ" "Indian/Antananarivo")
@@ -57,7 +61,6 @@
 
 
 
-;;; show hostname on modeline
 (defvar my-hostname (concat " " (system-name)))
 (setq global-mode-string (append global-mode-string '(my-hostname)))
 
@@ -140,8 +143,8 @@
 
 
 
+;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; package function
 (defvar rc/package-contents-refreshed nil)
 (defun rc/package-refresh-contents-once ()
   (when (not rc/package-contents-refreshed)
