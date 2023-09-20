@@ -229,9 +229,44 @@ then
 	cp config/xresource $HOME/.Xresources
 
 	cp config/i3 $HOME/.config/i3/config
-	cp config/picom $HOME/.config/conky/conky.conf
+	cp config/conky $HOME/.config/conky/conky.conf
 	cp config/picom $HOME/.config/picom/picom.conf
 	cp config/polybar $HOME/.config/polybar/config.ini
+
+	CPU=$(lscpu |grep "^CPU(s):" |awk '{print $2}')
+	for I in $(seq 1 1 $CPU)
+	do
+		if [[ $((($I-1)%4)) -eq 0 ]]
+		then
+			if [[ $I -eq 1 ]]
+			then
+				CPU_CONKY="\$alignc-"
+			else
+				CPU_CONKY="$CPU_CONKY\n\$alignc-"
+			fi
+		fi
+		CPU_CONKY="$CPU_CONKY \${cpu cpu$I}% -"
+	done
+	sed -i "s#CPU_NUMBER#$CPU_CONKY#" $HOME/.config/conky/conky.conf
+
+	INTERFACES=$(nmcli device status |grep "wifi \| ethernet" |awk '{print $1}')
+	I=0
+	echo "Select interface to show on conky"
+	for INTERFACE in $INTERFACES
+	do
+		I=$(($I+1))
+		echo "$I -> $INTERFACE"
+	done
+	read INT
+	I=0
+	for INTERFACE in $INTERFACES
+	do
+		I=$(($I+1))
+		if [[ ($I -eq $INT) || ("$INT" == "$INTERFACE") ]]
+		then
+			sed -i "s#NETWORK_INTERFACE#$INTERFACE#g" $HOME/.config/conky/conky.conf
+		fi
+	done
 fi
 
 ################################################################################
