@@ -8,5 +8,5 @@ xset -b &
 # picom &
 i3lock -c 333333 &
 eval 'sleep 1;while [ "$(pidof i3lock)" ]; do sleep 1; done; conky' &
-polybar &
+#polybar &
 exec i3
