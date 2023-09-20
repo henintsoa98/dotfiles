@@ -40,8 +40,7 @@ conky.config = {
 conky.text = [[
 ${color white}SYSTEM ${hr 2}${color lightgrey}
 $sysname $kernel $alignr $machine
-Date $alignr ${time %d/%m/%y}
-Time $alignr ${color orange}${time %H:%M:%S}${color lightgrey}
+Time $alignr ${time %d/%m/%y} ${color orange}${time %H:%M:%S}${color lightgrey}
 Uptime $alignr ${uptime_short}
 Battery$alignc$alignr(${acpiacadapter}) ${color green}${battery_percent}${color lightgrey}
 
@@ -51,8 +50,8 @@ $alignc${exec i3-conky-window}
 
 ${color white}NETWORK ${hr 2}${color lightgrey}
 NETWORK_INTERFACE $alignr ${upspeed NETWORK_INTERFACE}+${downspeed NETWORK_INTERFACE}
-${upspeedgraph NETWORK_INTERFACE 36,}
-${downspeedgraph NETWORK_INTERFACE 36,}
+${upspeedgraph NETWORK_INTERFACE 12,}
+${downspeedgraph NETWORK_INTERFACE 12,}
 Total $alignr ${color white}${totalup NETWORK_INTERFACE}+${totaldown NETWORK_INTERFACE}
 ${color white}IP ${hr 2}${color lightgrey}
 NETWORK_INTERFACE $alignc ${color orange}${addr NETWORK_INTERFACE}${color lightgrey}
@@ -68,8 +67,8 @@ ${color green}$membar${color lightgrey}
 ${color cyan}${fs_bar}${color lightgrey}
 ${color white}DISK ${hr 2}${color lightgrey}
 r/w $alignr ${diskio_read}/${diskio_write}
-${diskiograph_read 36,}
-${diskiograph_write 36,}
+${diskiograph_read 12,}
+${diskiograph_write 12,}
 ${color white}Process : $alignr ${processes}
 ${color white}CPU ${hr 2} CPU/MEM${color lightgrey}
 ${top name 1} $alignr ${top cpu 1}${top mem 1}
