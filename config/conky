@@ -53,7 +53,7 @@ ${color white}NETWORK ${hr 2}${color lightgrey}
 NETWORK_INTERFACE $alignr ${upspeed NETWORK_INTERFACE}+${downspeed NETWORK_INTERFACE}
 ${upspeedgraph NETWORK_INTERFACE 36,}
 ${downspeedgraph NETWORK_INTERFACE 36,}
-Total $alignr ${color white}${totalup wlp59s0}+${totaldown NETWORK_INTERFACE}
+Total $alignr ${color white}${totalup NETWORK_INTERFACE}+${totaldown NETWORK_INTERFACE}
 ${color white}IP ${hr 2}${color lightgrey}
 NETWORK_INTERFACE $alignc ${color orange}${addr NETWORK_INTERFACE}${color lightgrey}
 lxdbr0 $alignc ${addr lxdbr0}
