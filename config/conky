@@ -13,8 +13,8 @@ conky.config = {
     draw_shades = false,
     extra_newline = false,
     font = 'DejaVu Sans Mono:size=12',
-    gap_x = 30,
-    gap_y = 64,
+    gap_x = 24,
+    gap_y = 24,
     minimum_height = 5,
     minimum_width = 5,
     net_avg_samples = 2,
@@ -43,43 +43,44 @@ $sysname $kernel $alignr $machine
 Date $alignr ${time %d/%m/%y}
 Time $alignr ${color orange}${time %H:%M:%S}${color lightgrey}
 Uptime $alignr ${uptime_short}
+Battery$alignc$alignr(${acpiacadapter}) ${color green}${battery_percent}${color lightgrey}
+
+${color white}WORKSPACE ${hr 2}${color lightgrey}
+$alignc${exec i3-conky-workspace}${color lightgrey}
+$alignc${exec i3-conky-window}
 
 ${color white}NETWORK ${hr 2}${color lightgrey}
-wlp59s0 $alignr ${upspeed wlp59s0}+${downspeed wlp59s0}
-${upspeedgraph wlp59s0 36,}
-${downspeedgraph wlp59s0 36,}
-Total $alignr ${color white}${totalup wlp59s0}+${totaldown wlp59s0}
+NETWORK_INTERFACE $alignr ${upspeed NETWORK_INTERFACE}+${downspeed NETWORK_INTERFACE}
+${upspeedgraph NETWORK_INTERFACE 36,}
+${downspeedgraph NETWORK_INTERFACE 36,}
+Total $alignr ${color white}${totalup wlp59s0}+${totaldown NETWORK_INTERFACE}
 ${color white}IP ${hr 2}${color lightgrey}
-wlp59s0 $alignc ${color orange}${addr wlp59s0}${color lightgrey}
+NETWORK_INTERFACE $alignc ${color orange}${addr NETWORK_INTERFACE}${color lightgrey}
 lxdbr0 $alignc ${addr lxdbr0}
 
 ${color white}CPU ${hr 2}${color lightgrey}
 CPU  ${color yellow}${cpu cpu}% ${cpubar cpu}${color lightgrey}
-cpu1 ${cpu cpu1}% ${cpubar cpu1}
-cpu2 ${cpu cpu2}% ${cpubar cpu2}
-cpu3 ${cpu cpu3}% ${cpubar cpu3}
-cpu4 ${cpu cpu4}% ${cpubar cpu4}
-cpu5 ${cpu cpu5}% ${cpubar cpu5}
-cpu6 ${cpu cpu6}% ${cpubar cpu6}
-cpu7 ${cpu cpu7}% ${cpubar cpu7}
-cpu8 ${cpu cpu8}% ${cpubar cpu8}
-
+CPU_NUMBER
 ${color white}MEMORY ${hr 2}${color lightgrey}
 RAM $alignc ${color green}$mem/$memmax${color lightgrey} $alignr $memperc%
 ${color green}$membar${color lightgrey}
 / $alignc ${color cyan}${fs_used /}/${fs_size /}${color lightgrey} $alignr ${fs_used_perc /}%
 ${color cyan}${fs_bar}${color lightgrey}
-
 ${color white}DISK ${hr 2}${color lightgrey}
 r/w $alignr ${diskio_read}/${diskio_write}
 ${diskiograph_read 36,}
 ${diskiograph_write 36,}
-
-${color white}TOP ${hr 2} CPU/MEM${color lightgrey}
-Total : $alignr ${processes}
+${color white}Process : $alignr ${processes}
+${color white}CPU ${hr 2} CPU/MEM${color lightgrey}
 ${top name 1} $alignr ${top cpu 1}${top mem 1}
 ${top name 2} $alignr ${top cpu 2}${top mem 2}
 ${top name 3} $alignr ${top cpu 3}${top mem 3}
 ${top name 4} $alignr ${top cpu 4}${top mem 4}
 ${top name 5} $alignr ${top cpu 5}${top mem 5}
+${color white}RAM ${hr 2} CPU/MEM${color lightgrey}
+${top_mem name 1} $alignr ${top_mem mem_res 1}${top_mem cpu 1}
+${top_mem name 2} $alignr ${top_mem mem_res 2}${top_mem cpu 2}
+${top_mem name 3} $alignr ${top_mem mem_res 3}${top_mem cpu 3}
+${top_mem name 4} $alignr ${top_mem mem_res 4}${top_mem cpu 4}
+${top_mem name 5} $alignr ${top_mem mem_res 5}${top_mem cpu 5}
 ]]
