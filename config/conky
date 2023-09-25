@@ -12,9 +12,10 @@ conky.config = {
     draw_outline = false,
     draw_shades = false,
     extra_newline = false,
-    font = 'DejaVu Sans Mono:size=12',
-    gap_x = 24,
-    gap_y = 24,
+    font = 'SauceCodePro Nerd Font Mono:size=12',
+    font1 = 'SauceCodePro Nerd Font Mono:style=bold:size=12',
+    gap_x = 18,
+    gap_y = 0,
     minimum_height = 5,
     minimum_width = 5,
     net_avg_samples = 2,
@@ -34,52 +35,67 @@ conky.config = {
     use_spacer = 'none',
     use_xft = true,
 
-    own_window_transparent = true,
+    own_window_transparent = false,
+    --own_window_argb_visual = true,
+    --own_window_argb_value = 255,
+    --own_window_colour = '00ff00',
+
+    color1 = 'ffff00', -- TITLE
+    color2 = 'aaaaaa', -- DIMMED
+    color3 = 'ffffff', -- TEXT
+    color4 = '00ffff', -- VALUE
+    color5 = 'ff00ff', -- BAR
 }
 
 conky.text = [[
-${color white}SYSTEM ${hr 2}${color lightgrey}
-$sysname $kernel $alignr $machine
-Time $alignr ${time %d/%m/%y} ${color orange}${time %H:%M:%S}${color lightgrey}
-Uptime $alignr ${uptime_short}
-Battery$alignc$alignr(${acpiacadapter}) ${color green}${battery_percent}${color lightgrey}
 
-${color white}WORKSPACE ${hr 2}${color lightgrey}
-$alignc${exec i3-conky-workspace}${color lightgrey}
-$alignc${exec i3-conky-window}
+${color1}${font1}SYSTEM ${hr 2}
+${color2}${font}$sysname kernel$alignr${color3}${font1}$machine
+${color2}${font}Date$alignr ${color4}${font1}${time %H:%M:%S} ${color3}${font1}${time %d/%m/%y}
+${color2}${font}Uptime$alignr${color3}${font1}${uptime_short}
+#${color2}${font}Battery$alignc$alignr(${acpiacadapter}) ${color4}${font1}${battery_percent}
+${color2}${font}Temperature$alignr${color4}${font1}${hwmon 1 temp 1}°C
 
-${color white}NETWORK ${hr 2}${color lightgrey}
-NETWORK_INTERFACE $alignr ${upspeed NETWORK_INTERFACE}+${downspeed NETWORK_INTERFACE}
-${upspeedgraph NETWORK_INTERFACE 12,}
-${downspeedgraph NETWORK_INTERFACE 12,}
-Total $alignr ${color white}${totalup NETWORK_INTERFACE}+${totaldown NETWORK_INTERFACE}
-${color white}IP ${hr 2}${color lightgrey}
-NETWORK_INTERFACE $alignc ${color orange}${addr NETWORK_INTERFACE}${color lightgrey}
-lxdbr0 $alignc ${addr lxdbr0}
+${color1}${font1}WORKSPACE ${hr 2}
+${color3}${font1}$alignc${exec i3-conky-workspace}
+${color2}${font}$alignc${exec i3-conky-window}
 
-${color white}CPU ${hr 2}${color lightgrey}
-CPU  ${color yellow}${cpu cpu}% ${cpubar cpu}${color lightgrey}
+${color1}${font1}NETWORK ${hr 2}
+${color2}${font}NETWORK_INTERFACE$alignr${color3}${font1}${upspeed NETWORK_INTERFACE}+${downspeed NETWORK_INTERFACE}
+${color3}${font1}${upspeedgraph NETWORK_INTERFACE 12,}
+${color3}${font1}${downspeedgraph NETWORK_INTERFACE 12,}
+${color2}${font}Total$alignr${color4}${font1}${totalup NETWORK_INTERFACE}+${totaldown NETWORK_INTERFACE}
+${color1}${font1}IP ${hr 2}
+${color2}${font}NETWORK_INTERFACE$alignc${color4}${font1}${addr NETWORK_INTERFACE}
+${color2}${font}lxdbr0$alignc${color3}${font1}${addr lxdbr0}
+
+${color1}${font1}CPU ${hr 2}
+${color4}${font1}${cpu cpu}% ${color5}${font1}${cpubar cpu}${color3}${font1}
 CPU_NUMBER
-${color white}MEMORY ${hr 2}${color lightgrey}
-RAM $alignc ${color green}$mem/$memmax${color lightgrey} $alignr $memperc%
-${color green}$membar${color lightgrey}
-/ $alignc ${color cyan}${fs_used /}/${fs_size /}${color lightgrey} $alignr ${fs_used_perc /}%
-${color cyan}${fs_bar}${color lightgrey}
-${color white}DISK ${hr 2}${color lightgrey}
-r/w $alignr ${diskio_read}/${diskio_write}
-${diskiograph_read 12,}
-${diskiograph_write 12,}
-${color white}Process : $alignr ${processes}
-${color white}CPU ${hr 2} CPU/MEM${color lightgrey}
-${top name 1} $alignr ${top cpu 1}${top mem 1}
-${top name 2} $alignr ${top cpu 2}${top mem 2}
-${top name 3} $alignr ${top cpu 3}${top mem 3}
-${top name 4} $alignr ${top cpu 4}${top mem 4}
-${top name 5} $alignr ${top cpu 5}${top mem 5}
-${color white}RAM ${hr 2} CPU/MEM${color lightgrey}
-${top_mem name 1} $alignr ${top_mem mem_res 1}${top_mem cpu 1}
-${top_mem name 2} $alignr ${top_mem mem_res 2}${top_mem cpu 2}
-${top_mem name 3} $alignr ${top_mem mem_res 3}${top_mem cpu 3}
-${top_mem name 4} $alignr ${top_mem mem_res 4}${top_mem cpu 4}
-${top_mem name 5} $alignr ${top_mem mem_res 5}${top_mem cpu 5}
+${color1}${font1}MEMORY ${hr 2}
+${color2}${font}RAM$alignc${color4}${font1}$mem/$memmax$alignr${color3}${font1}$memperc%
+${color5}${font1}$membar
+/$alignc${color4}${font1}${fs_used /}/${fs_size /}$alignr${color3}${font1}${fs_used_perc /}%
+${color5}${font1}${fs_bar}
+${color1}${font1}DISK ${hr 2}
+${color2}${font}r/w$alignr${color3}${font1}${diskio_read}/${diskio_write}
+${color3}${font1}${diskiograph_read 12,}
+${color3}${font1}${diskiograph_write 12,}
+${color2}${font}Process :$alignr${color3}${font1}${processes}
+${color1}${font1}CPU ${hr 2} CPU/MEM
+${color2}${font}${top name 1}$alignr${color3}${font1}${top cpu 1}${color2}${font}${top mem 1}
+${color2}${font}${top name 2}$alignr${color3}${font1}${top cpu 2}${color2}${font}${top mem 2}
+${color2}${font}${top name 3}$alignr${color3}${font1}${top cpu 3}${color2}${font}${top mem 3}
+${color2}${font}${top name 4}$alignr${color3}${font1}${top cpu 4}${color2}${font}${top mem 4}
+${color2}${font}${top name 5}$alignr${color3}${font1}${top cpu 5}${color2}${font}${top mem 5}
+${color1}${font1}RAM ${hr 2} CPU/MEM
+${color2}${font}${top_mem name 1}$alignr${color3}${font1}${top_mem mem_res 1}${color2}${font}${top_mem cpu 1}
+${color2}${font}${top_mem name 2}$alignr${color3}${font1}${top_mem mem_res 2}${color2}${font}${top_mem cpu 2}
+${color2}${font}${top_mem name 3}$alignr${color3}${font1}${top_mem mem_res 3}${color2}${font}${top_mem cpu 3}
+${color2}${font}${top_mem name 4}$alignr${color3}${font1}${top_mem mem_res 4}${color2}${font}${top_mem cpu 4}
+${color2}${font}${top_mem name 5}$alignr${color3}${font1}${top_mem mem_res 5}${color2}${font}${top_mem cpu 5}
+
+
+
+
 ]]
