@@ -1,11 +1,15 @@
 xrdb ~/.Xresources
-
 # xsetroot -solid "#123" &
+#xrandr --output HDMI-1 --mode 1280x720 &
+xset -b &
+#xmodmap -e 'keycode 174 = underscore'&
+#xmodmap -e 'keycode 180 = backslash'&
+#xmodmap -e 'keycode 163 = bar'&
+#xmodmap -e 'keycode 77 = Insert'&
 
 unclutter -idle 2 &
-xset -b &
 ~/.fehbg &
-# picom &
+picom &
 i3lock -c 333333 &
 eval 'sleep 1;while [ "$(pidof i3lock)" ]; do sleep 1; done; conky' &
 #polybar &
