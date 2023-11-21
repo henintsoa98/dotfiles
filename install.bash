@@ -1,46 +1,20 @@
-################################################################################
-# CHECK ROOT ###################################################################
-################################################################################
-if [[ $UID -eq 0 ]]
-then
-	echo "don't run as root"
-	exit
-fi
-
-################################################################################
-# GET SUDO PRIVILEGE ###########################################################
-################################################################################
-sudo echo -e "\033[1;31m# HELLO, SETUP BEGIN #\033[0m"; sleep 2
-
-################################################################################
-# COPY MY CUSTOM BINARY ########################################################
-################################################################################
-if [[ "$1" == "setup" || "$1" == "update" ]]
-then
-	echo -e "\033[1;31m# COPY CUSTOM BINARY #\033[0m"; sleep 2
-	sudo su -c "cp bin/* /usr/local/bin/"
-	sudo su -c "chmod +x /usr/local/bin/*"
-fi
-
-################################################################################
-# CHECK ARGUMENT ###############################################################
-################################################################################
-if [[ "$1" == "setup" || "$1" == "update" || "$1" == "container" ]]
-then
-	echo -e "\033[1;31m# CHECKING IF EVERYTHING IS COOL #\033[0m"; sleep 2
-else
-	echo "usage : $0 setup|update|container"
-	exit
-fi
-
-################################################################################
-# INSTALL PACKAGE ##############################################################
-################################################################################
-if [[ "$1" == "setup" ]]
-then
-	echo -e "\033[1;31m# INSTALL PACKAGE #\033[0m"
+###############################################################################
+# SOME FUNCTION ###############################################################
+###############################################################################
+INSTALL_MINIMAL_ENV ()
+{
 	echo -e "\033[1;31m# INSTALL MINIMAL ENV #\033[0m"; sleep 2
 	sudo su -c "apt install alsa-utils command-not-found curl git network-manager openssh-server openssh-client sshfs sudo vim zsh"
+}
+
+INSTALL_MINIMAL_ENV_CONTAINER ()
+{
+	echo -e "\033[1;31m# INSTALL MY MINIMAL ENV #\033[0m"; sleep 2
+	sudo su -c "apt install command-not-found curl git openssh-server openssh-client sshfs sudo vim zsh"
+}
+
+INSTALL_DEV_ENV ()
+{
 	echo -e "\033[1;31m# INSTALL DEV ENV (build-essential or clang) #\033[0m"; sleep 2
 	echo -e "\033[1;33mInstall build-essential? (yn)\033[0m"
 	read CHOICE
@@ -66,6 +40,28 @@ then
 			sudo su -c "apt install lldb"
 		fi
 	fi
+}
+
+INSTALL_EMACS ()
+{
+	echo -e "\033[1;31m# INSTALL CONTAINER (lxd or docker) #\033[0m"; sleep 2
+	echo -e "\033[1;33mInstall lxd? (yn)\033[0m"
+	read CHOICE
+	if [[ "$CHOICE" == "y" ]]
+	then
+		sudo su -c "apt install lxd usbutils"
+	fi
+	echo -e "\033[1;33mInstall docker? (yn)\033[0m"
+	read CHOICE
+	if [[ "$CHOICE" == "y" ]]
+	then
+		sudo su -c "apt install docker.io"
+	fi
+
+}
+
+INSTALL_GUI ()
+{
 	echo -e "\033[1;31m# INSTALL GUI #\033[0m"; sleep 2
 	echo -e "\033[1;33mInstall i3? (yn)\033[0m"
 	read CHOICE
@@ -101,19 +97,11 @@ then
 	then
 		sudo su -c "apt install vlc"
 	fi
-	echo -e "\033[1;31m# INSTALL EMACS EDITOR #\033[0m"; sleep 2
-	echo -e "\033[1;33mInstall emacs? (yn)\033[0m"
-	read CHOICE
-	if [[ "$CHOICE" == "y" ]]
-	then
-		sudo su -c "apt install emacs-nox"
-		echo -e "\033[1;33mInstall emacs with gui? (yn)\033[0m"
-		read CHOICE
-		if [[ "$CHOICE" == "y" ]]
-		then
-			sudo su -c "apt install emacs emacs-gtk"
-		fi
-	fi
+	INSTALL_EMACS
+}
+
+INSTALL_CONTAINER ()
+{
 	echo -e "\033[1;31m# INSTALL CONTAINER (lxd or docker) #\033[0m"; sleep 2
 	echo -e "\033[1;33mInstall lxd? (yn)\033[0m"
 	read CHOICE
@@ -125,9 +113,65 @@ then
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
-		sudo su -c "apt install docker.io"
-	fi
+		sudo su -c "apt install ca-certificates curl gnupg"
+		sudo su -c "install -m 0755 -d /etc/apt/keyrings"
+		curl -fsSL https://download.docker.com/linux/debian/gpg | sudo su -c "gpg --dearmor -o /etc/apt/keyrings/docker.gpg"
+		sudo su -c "chmod a+r /etc/apt/keyrings/docker.gpg"
 
+  		echo \
+			"deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+			"$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+			sudo su -c "tee /etc/apt/sources.list.d/docker.list" > /dev/null
+		sudo su -c "apt update"
+  		sudo su -c "apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
+	fi
+}
+
+################################################################################
+# CHECK ROOT ###################################################################
+################################################################################
+if [[ $UID -eq 0 ]]
+then
+	echo "don't run as root"
+	exit
+fi
+
+################################################################################
+# GET SUDO PRIVILEGE ###########################################################
+################################################################################
+sudo echo -e "\033[1;31m# HELLO, SETUP BEGIN #\033[0m"; sleep 2
+
+################################################################################
+# CHECK ARGUMENT ###############################################################
+################################################################################
+if [[ "$1" == "setup" || "$1" == "update" || "$1" == "container" ]]
+then
+	echo -e "\033[1;31m# CHECKING IF EVERYTHING IS COOL #\033[0m"; sleep 2
+else
+	echo "usage : $0 setup|update|container"
+	exit
+fi
+
+################################################################################
+# COPY MY CUSTOM BINARY ########################################################
+################################################################################
+if [[ "$1" == "setup" || "$1" == "update" ]]
+then
+	echo -e "\033[1;31m# COPY CUSTOM BINARY #\033[0m"; sleep 2
+	sudo su -c "cp bin/* /usr/local/bin/"
+	sudo su -c "chmod +x /usr/local/bin/*"
+fi
+
+################################################################################
+# INSTALL PACKAGE ##############################################################
+################################################################################
+if [[ "$1" == "setup" ]]
+then
+	echo -e "\033[1;31m# INSTALL PACKAGE #\033[0m"
+	INSTALL_MINIMAL_ENV
+	INSTALL_DEV_ENV
+	INSTALL_GUI
+	INSTALL_CONTAINER
 
 	sudo su -c "/usr/sbin/usermod -aG sudo,lxd $USER"
 	echo -e "\033[1;33mAutologin : PC(y) / other[orangepi, raspberry, ...](n) ?\033[0m"
@@ -141,46 +185,9 @@ fi
 if [[ "$1" == "container" ]]
 then
 	echo -e "\033[1;31m# INSTALL PACKAGE #\033[0m"
-	echo -e "\033[1;31m# INSTALL MY MINIMAL ENV #\033[0m"; sleep 2
-	sudo su -c "apt install command-not-found curl git openssh-server openssh-client sshfs sudo vim zsh"
-	echo -e "\033[1;31m# INSTALL DEV ENV (build-essential or clang) #\033[0m"; sleep 2
-	echo -e "\033[1;33mInstall build-essential? (yn)\033[0m"
-	read CHOICE
-	if [[ "$CHOICE" == "y" ]]
-	then
-		sudo su -c "apt install build-essential"
-		echo -e "\033[1;33mInstall debugger gdb? (yn)\033[0m"
-		read CHOICE
-		if [[ "$CHOICE" == "y" ]]
-		then
-			sudo su -c "apt install gdb"
-		fi
-	fi
-	echo -e "\033[1;33mInstall clang? (yn)\033[0m"
-	read CHOICE
-	if [[ "$CHOICE" == "y" ]]
-	then
-		sudo su -c "apt install clang"
-		echo -e "\033[1;33mInstall debugger lldb? (yn)\033[0m"
-		read CHOICE
-		if [[ "$CHOICE" == "y" ]]
-		then
-			sudo su -c "apt install lldb"
-		fi
-	fi
-	echo -e "\033[1;31m# INSTALL EMACS EDITOR #\033[0m"; sleep 2
-	echo -e "\033[1;33mInstall emacs? (yn)\033[0m"
-	read CHOICE
-	if [[ "$CHOICE" == "y" ]]
-	then
-		sudo su -c "apt install emacs-nox"
-		echo -e "\033[1;33mInstall emacs with gui? (yn)\033[0m"
-		read CHOICE
-		if [[ "$CHOICE" == "y" ]]
-		then
-			sudo su -c "apt install emacs emacs-gtk"
-		fi
-	fi
+	INSTALL_MINIMAL_ENV_CONTAINER
+	INSTALL_DEV_ENV
+	INSTALL_EMACS
 fi
 
 ################################################################################
