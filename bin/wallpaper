@@ -1,0 +1,46 @@
+#!/bin/bash
+
+username=$(id -nu 100)
+
+mkdir -p /tmp/wallpaper/
+cd /home/${username}/Pictures
+
+IMAGES=$(ls *.png)
+NEXT=0
+CHANGE=0
+
+WALLPAPER_IT ()
+{
+	DISPLAYS=$(ls /tmp/.X11-unix |sed "s#X##g")
+	for DISP in $DISPLAYS
+	do
+		DISPLAY=:$DISP feh --bg-scale $1
+	done
+	echo $1 > /tmp/wallpaper/current
+}
+
+if [[ -f /tmp/wallpaper/current ]]
+then
+	CURRENT=$(cat /tmp/wallpaper/current)
+	for IMAGE in $IMAGES
+	do
+		if [[ $NEXT -eq 1 ]]
+		then
+			WALLPAPER_IT $IMAGE
+			CHANGE=1
+			break
+		fi
+		if [[ "$CURRENT" == "$IMAGE" ]]
+		then
+			NEXT=1
+		fi
+	done
+	if [[ $CHANGE -eq 0 ]]
+	then
+		IMAGE=$(echo $IMAGES | sed -n "1p" |awk '{print $1}')
+		WALLPAPER_IT $IMAGE
+	fi
+else
+	IMAGE=$(echo $IMAGES | sed -n "1p" |awk '{print $1}')
+	WALLPAPER_IT $IMAGE
+fi
