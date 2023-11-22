@@ -69,6 +69,8 @@ INSTALL_GUI ()
 	then
 		sudo su -c "apt install bc feh i3 i3lock picom conky polybar rxvt-unicode suckless-tools xorg"
   		sudo su -c "apt install xserver-xorg-video-intel"
+		username=$(id -nu 1000)
+		sudo su - ${username} -c 'crontab -l | { cat; echo "* * * * * /usr/local/bin/wallpaper"; } | crontab -'
 	fi
 	echo -e "\033[1;31m# INSTALL FILE MANAGER #\033[0m"; sleep 2
 	echo -e "\033[1;33mInstall pcmanfm? (yn)\033[0m"
