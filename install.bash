@@ -260,7 +260,7 @@ then
 
 	INTERFACES=$(nmcli device status |grep "wifi \| ethernet" |awk '{print $1}')
 	I=0
-	echo "Select interface to show on conky"
+	echo "Select (number) interface to show on conky"
 	for INTERFACE in $INTERFACES
 	do
 		I=$(($I+1))
@@ -271,9 +271,29 @@ then
 	for INTERFACE in $INTERFACES
 	do
 		I=$(($I+1))
-		if [[ ($I -eq $INT) || ("$INT" == "$INTERFACE") ]]
+		if [[ $I -eq $INT ]]
 		then
 			sed -i "s#NETWORK_INTERFACE#$INTERFACE#g" $HOME/.config/conky/conky.conf
+		fi
+	done
+
+	MONITORS=$(ls /sys/class/hwmon)
+	echo "Select (number) temperature to show on conky"
+	for MONITOR in $MONITORS
+	do
+		CMD=$(cat /sys/class/hwmon/$MONITOR/name)
+		HWMON=$(echo $MONITOR | sed "s#hwmon##")
+		echo "$HWMON -> $CMD"
+	done
+	read TEMP
+	I=0
+	for MONITOR in $MONITORS
+	do
+		CMD=$(cat /sys/class/hwmon/$MONITOR/name)
+		HWMON=$(echo $MONITOR | sed "s#hwmon##")
+		if [[ $HWMON -eq $TEMP ]]
+		then
+			sed -i "s#HWMON#hwmon $HWMON#g" $HOME/.config/conky/conky.conf
 		fi
 	done
 fi
