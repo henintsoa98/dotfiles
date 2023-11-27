@@ -4,13 +4,13 @@
 INSTALL_MINIMAL_ENV ()
 {
 	echo -e "\033[1;31m# INSTALL MINIMAL ENV #\033[0m"; sleep 2
-	sudo su -c "apt install alsa-utils command-not-found curl git network-manager openssh-server openssh-client sshfs sudo vim zsh"
+	sudo su -c "apt-get install alsa-utils command-not-found curl git network-manager openssh-server openssh-client sshfs sudo vim zsh"
 }
 
 INSTALL_MINIMAL_ENV_CONTAINER ()
 {
 	echo -e "\033[1;31m# INSTALL MY MINIMAL ENV #\033[0m"; sleep 2
-	sudo su -c "apt install command-not-found curl git openssh-server openssh-client sshfs sudo vim zsh"
+	sudo su -c "apt-get install command-not-found curl git openssh-server openssh-client sshfs sudo vim zsh"
 }
 
 INSTALL_DEV_ENV ()
@@ -20,44 +20,44 @@ INSTALL_DEV_ENV ()
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
-		sudo su -c "apt install build-essential"
+		sudo su -c "apt-get install build-essential"
 		echo -e "\033[1;33mInstall debugger gdb? (yn)\033[0m"
 		read CHOICE
 		if [[ "$CHOICE" == "y" ]]
 		then
-			sudo su -c "apt install gdb"
+			sudo su -c "apt-get install gdb"
 		fi
 	fi
 	echo -e "\033[1;33mInstall clang? (yn)\033[0m"
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
-		sudo su -c "apt install clang"
+		sudo su -c "apt-get install clang"
 		echo -e "\033[1;33mInstall debugger lldb? (yn)\033[0m"
 		read CHOICE
 		if [[ "$CHOICE" == "y" ]]
 		then
-			sudo su -c "apt install lldb"
+			sudo su -c "apt-get install lldb"
 		fi
 	fi
 }
 
 INSTALL_EMACS ()
 {
-	echo -e "\033[1;31m# INSTALL CONTAINER (lxd or docker) #\033[0m"; sleep 2
-	echo -e "\033[1;33mInstall lxd? (yn)\033[0m"
+	echo -e "\033[1;31m# INSTALL EMACS EDITOR #\033[0m"; sleep 2
+	echo -e "\033[1;33mInstall emacs? (yn)\033[0m"
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
-		sudo su -c "apt install lxd usbutils"
+		echo -e "\033[1;33mInstall emacs with gui? (yn)\033[0m"
+		read CHOICE
+		if [[ "$CHOICE" == "y" ]]
+		then
+			sudo su -c "apt-get install emacs"
+   		else
+			sudo su -c "apt-get install emacs-nox"
+		fi
 	fi
-	echo -e "\033[1;33mInstall docker? (yn)\033[0m"
-	read CHOICE
-	if [[ "$CHOICE" == "y" ]]
-	then
-		sudo su -c "apt install docker.io"
-	fi
-
 }
 
 INSTALL_GUI ()
@@ -67,8 +67,8 @@ INSTALL_GUI ()
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
-		sudo su -c "apt install bc feh i3 i3lock picom conky polybar rxvt-unicode suckless-tools xorg"
-  		sudo su -c "apt install xserver-xorg-video-intel"
+		sudo su -c "apt-get install bc feh i3 i3lock picom conky polybar rxvt-unicode suckless-tools xorg"
+  		sudo su -c "apt-get install xserver-xorg-video-intel"
 		username=$(id -nu 1000)
 		sudo su - ${username} -c 'crontab -l | { cat; echo "* * * * * /usr/local/bin/wallpaper"; } | crontab -'
 	fi
@@ -77,12 +77,12 @@ INSTALL_GUI ()
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
-		sudo su -c "apt install pcmanfm"
+		sudo su -c "apt-get install pcmanfm"
 		echo -e "\033[1;33mInstall lxappearance? (yn)\033[0m"
 		read CHOICE
 		if [[ "$CHOICE" == "y" ]]
 		then
-			sudo su -c "apt install lxappearance"
+			sudo su -c "apt-get install lxappearance"
 		fi
 	fi
 	echo -e "\033[1;31m# INSTALL BROWSER #\033[0m"; sleep 2
@@ -90,16 +90,15 @@ INSTALL_GUI ()
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
-		sudo su -c "apt install firefox-esr"
+		sudo su -c "apt-get install firefox-esr"
 	fi
 	echo -e "\033[1;31m# INSTALL MEDIA PLAYER #\033[0m"; sleep 2
 	echo -e "\033[1;33mInstall vlc? (yn)\033[0m"
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
-		sudo su -c "apt install vlc"
+		sudo su -c "apt-get install vlc"
 	fi
-	INSTALL_EMACS
 }
 
 INSTALL_CONTAINER ()
@@ -109,23 +108,23 @@ INSTALL_CONTAINER ()
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
-		sudo su -c "apt install lxd usbutils"
+		sudo su -c "apt-get install lxd usbutils"
 	fi
 	echo -e "\033[1;33mInstall docker? (yn)\033[0m"
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
-		sudo su -c "apt install ca-certificates curl gnupg"
-		sudo su -c "install -m 0755 -d /etc/apt/keyrings"
-		curl -fsSL https://download.docker.com/linux/debian/gpg | sudo su -c "gpg --dearmor -o /etc/apt/keyrings/docker.gpg"
-		sudo su -c "chmod a+r /etc/apt/keyrings/docker.gpg"
+		sudo su -c "apt-get install ca-certificates curl gnupg"
+		sudo su -c "install -m 0755 -d /etc/apt-get/keyrings"
+		curl -fsSL https://download.docker.com/linux/debian/gpg | sudo su -c "gpg --dearmor -o /etc/apt-get/keyrings/docker.gpg"
+		sudo su -c "chmod a+r /etc/apt-get/keyrings/docker.gpg"
 
   		echo \
-			"deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+			"deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt-get/keyrings/docker.gpg] https://download.docker.com/linux/debian \
 			"$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
-			sudo su -c "tee /etc/apt/sources.list.d/docker.list" > /dev/null
-		sudo su -c "apt update"
-  		sudo su -c "apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
+			sudo su -c "tee /etc/apt-get/sources.list.d/docker.list" > /dev/null
+		sudo su -c "apt-get update"
+  		sudo su -c "apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
 	fi
 }
 
@@ -149,6 +148,7 @@ sudo echo -e "\033[1;31m# HELLO, SETUP BEGIN #\033[0m"; sleep 2
 if [[ "$1" == "setup" || "$1" == "update" || "$1" == "container" ]]
 then
 	echo -e "\033[1;31m# CHECKING IF EVERYTHING IS COOL #\033[0m"; sleep 2
+	sudo su -c "apt-get update"
 else
 	echo "usage : $0 setup|update|container"
 	exit
@@ -173,6 +173,7 @@ then
 	INSTALL_MINIMAL_ENV
 	INSTALL_DEV_ENV
 	INSTALL_GUI
+ 	INSTALL_EMACS
 	INSTALL_CONTAINER
 
 	sudo su -c "/usr/sbin/usermod -aG sudo,lxd $USER"
