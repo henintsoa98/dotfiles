@@ -67,7 +67,7 @@ INSTALL_GUI ()
 	read CHOICE
 	if [[ "$CHOICE" == "y" ]]
 	then
-		sudo su -c "apt-get install bc feh i3 i3lock picom conky polybar rxvt-unicode suckless-tools xorg"
+		sudo su -c "apt-get install bc feh i3 i3lock picom conky polybar rxvt-unicode scrot suckless-tools xorg"
   		sudo su -c "apt-get install xserver-xorg-video-intel"
 		username=$(id -nu 1000)
 		sudo su - ${username} -c 'crontab -l | { cat; echo "* * * * * /usr/local/bin/wallpaper"; } | crontab -'
