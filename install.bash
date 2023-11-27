@@ -210,7 +210,7 @@ then
 	cp config/bureau_mod.zsh-theme $HOME/.oh-my-zsh/custom/themes/
 
 	sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="bureau_mod"/' $HOME/.zshrc
-	sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-completions zsh-syntax-highlighting web-search lxd command-not-found)/' $HOME/.zshrc
+	sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-completions zsh-syntax-highlighting web-search command-not-found dirhistory)/' $HOME/.zshrc
 	echo "source \$HOME/.henintsoarc" | tee -a $HOME/.zshrc
 	echo -e "\033[1;33mCOMMENT <IF> BLOCK THAT CONTAIN <STARTX> OR <XHOST> ON ~/.henintsoarc if you are not in PC like orangepi, raspberry,... \033[0m";sleep 2
 	echo ""
