@@ -293,7 +293,7 @@ then
 		HWMON=$(echo $MONITOR | sed "s#hwmon##")
 		if [[ $HWMON -eq $TEMP ]]
 		then
-			sed -i "s#HWMON#hwmon $HWMON#g" $HOME/.config/conky/conky.conf
+			sed -i "s#hwmon 0#hwmon $HWMON#g" $HOME/.config/conky/conky.conf
 		fi
 	done
 fi
