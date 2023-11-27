@@ -11,7 +11,7 @@ cd INSTALL
 git clone --depth 1 https://github.com/henintsoa98/dotfiles
 cd dotfiles
 ```
-For installation, use **setup**, to update the installation use **update**\
+For installation on normal system, with GUI or without GUI, use **setup**, to update a previous installation use **update**\
 For container setup, use **container**, to update container, also use **container**, not **update**\
 \
 Setup sudo firstly, the user need to be in group sudo\
