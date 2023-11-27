@@ -115,14 +115,14 @@ INSTALL_CONTAINER ()
 	if [[ "$CHOICE" == "y" ]]
 	then
 		sudo su -c "apt-get install ca-certificates curl gnupg"
-		sudo su -c "install -m 0755 -d /etc/apt-get/keyrings"
-		curl -fsSL https://download.docker.com/linux/debian/gpg | sudo su -c "gpg --dearmor -o /etc/apt-get/keyrings/docker.gpg"
-		sudo su -c "chmod a+r /etc/apt-get/keyrings/docker.gpg"
+		sudo su -c "install -m 0755 -d /etc/apt/keyrings"
+		curl -fsSL https://download.docker.com/linux/debian/gpg | sudo su -c "gpg --dearmor -o /etc/apt/keyrings/docker.gpg"
+		sudo su -c "chmod a+r /etc/apt/keyrings/docker.gpg"
 
   		echo \
-			"deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt-get/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+			"deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
 			"$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
-			sudo su -c "tee /etc/apt-get/sources.list.d/docker.list" > /dev/null
+			sudo su -c "tee /etc/apt/sources.list.d/docker.list" > /dev/null
 		sudo su -c "apt-get update"
   		sudo su -c "apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
 	fi
