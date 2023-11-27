@@ -1,0 +1,18 @@
+#!/bin/bash
+
+mkdir -p /tmp/copier-coller/
+
+
+
+DIR=$(pwd)
+
+if [[ "$@" != "" ]]
+then
+	FILE="$@"
+else
+	exit
+fi
+
+cd /tmp/copier-coller/
+echo "$DIR" > DIR
+echo "$FILE" > FILE

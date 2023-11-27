@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [[ $# -eq 0 ]]
+then
+	HERE=$(pwd)
+else
+	HERE="$1"
+fi
+
+DIR=$(cat /tmp/copier-coller/DIR)
+FILES=$(cat /tmp/copier-coller/FILE)
+
+
+if [[ ("$DIR" != "") && ("$FILES" != "") ]]
+then
+	#cd $DIR
+	#cp -r $FILE $HERE
+	THIS=""
+	for FILE in $FILES
+	do
+		THIS="$THIS $DIR/$FILE"
+	done
+	cp -r $THIS $HERE
+fi
