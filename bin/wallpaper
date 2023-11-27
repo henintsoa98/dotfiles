@@ -1,6 +1,6 @@
 #!/bin/bash
 
-username=$(id -nu 100)
+username=$(id -nu 1000)
 
 mkdir -p /tmp/wallpaper/
 cd /home/${username}/Pictures
