@@ -54,7 +54,7 @@ ${color2}${font}$sysname kernel$alignr${color3}${font1}$machine
 ${color2}${font}Date$alignr ${color4}${font1}${time %H:%M:%S} ${color3}${font1}${time %d/%m/%y}
 ${color2}${font}Uptime$alignr${color3}${font1}${uptime_short}
 #${color2}${font}Battery$alignc$alignr(${acpiacadapter}) ${color4}${font1}${battery_percent}
-${color2}${font}Temperature$alignr${color4}${font1}${hwmon 1 temp 1}°C
+${color2}${font}Temperature$alignr${color4}${font1}${hwmon 0 temp 1}°C
 
 ${color1}${font1}WORKSPACE ${hr 2}
 ${color3}${font1}$alignc${exec i3-conky-workspace}
