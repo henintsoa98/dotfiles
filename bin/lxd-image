@@ -1,0 +1,67 @@
+#!/bin/bash
+
+#
+# ONJANIAINA Henintsoa Stephana
+# 13/08/23
+#
+
+###############################################################################
+if [[ $# -eq 0 || "$1" == "--help" || "$1" == "-h" ]]
+then
+        echo "usage :"
+	echo "lxd-image import <container_name> <filename>"
+	echo "lxd-image export <container_name>"
+        #echo "lxd-image import|export"
+        #echo "lxd-image import|export <container_name>"
+        #echo "lxd-image import|export <container_name> <backup_name>"
+fi
+###############################################################################
+if [[ "$1" == "import" ]]
+then
+	if [[ $2 ]]
+	then
+		echo cool
+	else
+		exit
+	fi
+	CONTAINER="$2"
+	FILENAME="$3"
+	lxc image import $FILENAME --alias $CONTAINER || exit
+	lxc launch $CONTAINER $CONTAINER
+	lxc stop $CONTAINER
+	lxc image delete $CONTAINER
+	lxc profile create gui
+	cat << EOF > .gui.txt
+config:
+  environment.DISPLAY: :0
+  raw.idmap: both 1000 1000
+description: GUI LXD profile
+devices:
+  X0:
+    path: /tmp/.X11-unix/X0
+    source: /tmp/.X11-unix/X0
+    type: disk
+  my_gpu:
+    type: gpu
+name: gui
+EOF
+
+	lxc profile edit gui < .gui.txt
+	rm .gui.txt
+	lxc profile add $CONTAINER gui
+	lxc config set $CONTAINER security.privileged=true
+	lxc start $CONTAINER
+	lxc exec $CONTAINER -- bash
+fi
+###############################################################################
+if [[ "$1" == "export" ]]
+then
+	CONTAINER="$2"
+	mkdir LXC_BACKUP_$CONTAINER
+	cd LXC_BACKUP_$CONTAINER
+	lxc publish $CONTAINER --alias $CONTAINER -f || exit
+	lxc image export $CONTAINER .
+	lxc image delete $CONTAINER
+	ls
+	cd ..
+fi
