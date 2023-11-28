@@ -2,6 +2,8 @@
 
 alias matlab="/usr/local/MATLAB/R2018b/bin/matlab"
 alias git1="git clone --depth 1"
+alias ping8="ping 8.8.8.8"
+alias ping1="ping 1.1.1.1"
 alias bye="sudo poweroff"
 alias vim="emacs -nw"
 _XHOST_STATUS=$(xhost | awk '{print $3}')
