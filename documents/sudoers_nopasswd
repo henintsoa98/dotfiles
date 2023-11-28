@@ -1,0 +1,2 @@
+# run this command as root to set sudo group to execute command without password
+sed -i "/sudo/ s/ALL$/NOPASSWD: ALL/" /etc/sudoers
