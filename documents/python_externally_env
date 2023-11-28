@@ -1,1 +1,2 @@
+# allow to install with pip, if problems like "externally-managed" exists
 rm /usr/lib/python3.11/EXTERNALLY-MANAGED
