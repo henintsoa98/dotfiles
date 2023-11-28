@@ -1,0 +1,130 @@
+#!/bin/bash
+
+#
+# ONJANIAINA Henintsoa Stephana
+# 12/08/23
+#
+
+SELECT ()
+{
+	while read line
+	do
+		echo -e "\t$line"
+	done < .CHOICE
+
+	echo "Your choice :"
+	read CHOICES
+	
+	while read line
+	do
+		INPUT=$(echo "$line" |grep "^$CHOICES ->")
+		if [[ "$INPUT" ]]
+		then
+			CHOICE="$INPUT"
+		fi
+	done < .CHOICE
+
+	rm .CHOICE
+}
+
+###############################################################################
+if [[ $# -eq 0 || "$1" == "--help" || "$1" == "-h" ]]
+then
+	echo "usage :"
+	echo "lxd-device list|add|del"
+	echo "lxd-device list|add|del <container_name>"
+	echo "lxd-device add|del <container_name> <device_name>"
+fi
+###############################################################################
+if [[ "$1" == "list" ]]
+then
+	if [[ $2 ]]
+	then
+		CONTAINER="$2"
+	else
+		echo "Select container to list device :"
+		lxc list | awk '{print $2}' | sed "/^$/d;/^NAME$/d" | awk '{print NR, "->",$0}' > .CHOICE
+		
+		SELECT
+
+		CONTAINER=$(echo $CHOICE | awk '{print $3}')
+	fi
+
+	echo "Device of $CONTAINER :"
+	lxc config device list $CONTAINER
+fi
+###############################################################################
+if [[ "$1" == "add" ]]
+then
+	if [[ $2 ]]
+	then
+		CONTAINER="$2"
+		
+		if [[ $3 ]]
+		then
+			DEVICE="$3"
+		else
+			echo "Enter the new device name"
+			read DEVICE
+		fi
+	else
+		echo "Select container to add device :"
+		lxc list | awk '{print $2}' | sed "/^$/d;/^NAME$/d" | awk '{print NR, "->",$0}' > .CHOICE
+		
+		SELECT
+
+		CONTAINER=$(echo $CHOICE | awk '{print $3}')
+
+		echo "Enter the new device name"
+		read DEVICE
+	fi
+
+	echo "Select device to passtrough :"
+	lsusb |awk '{print NR,"->",$0}' > .CHOICE
+
+	SELECT
+
+	FULLID=$(echo $CHOICE |awk '{print $8}')
+
+	VENDORID=$(echo $FULLID |sed "s#:# #" |awk '{print $1}')
+	PRODUCTID=$(echo $FULLID |sed "s#:# #" |awk '{print $2}')
+
+	lxc config device add $CONTAINER $DEVICE usb vendorid=$VENDORID productid=$PRODUCTID
+fi
+###############################################################################
+if [[ "$1" == "del" ]]
+then
+	if [[ $2 ]]
+	then
+		CONTAINER="$2"
+		
+		if [[ $3 ]]
+		then
+			DEVICE="$3"
+		else
+			echo "Select the device to delete :"
+			lxc config device list $CONTAINER | awk '{print NR, "->",$0}' > .CHOICE
+
+			SELECT
+
+			DEVICE=$(echo $CHOICE | awk '{print $3}')
+		fi
+	else
+		echo "Select container to delete device :"
+		lxc list | awk '{print $2}' | sed "/^$/d;/^NAME$/d" | awk '{print NR, "->",$0}' > .CHOICE
+		
+		SELECT
+
+		CONTAINER=$(echo $CHOICE | awk '{print $3}')
+
+		echo "Select the device to delete :"
+		lxc config device list $CONTAINER | awk '{print NR, "->",$0}' > .CHOICE
+
+		SELECT
+
+		DEVICE=$(echo $CHOICE | awk '{print $3}')
+	fi
+
+	lxc config device remove $CONTAINER $DEVICE
+fi
+###############################################################################
