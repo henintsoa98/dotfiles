@@ -5,10 +5,12 @@
 # 13/08/23
 #
 
+source color
+
 ###############################################################################
 if [[ $# -eq 0 || "$1" == "--help" || "$1" == "-h" ]]
 then
-        echo "usage :"
+	echo "usage :"
 	echo "lxd-image import <container_name> <filename>"
 	echo "lxd-image export <container_name>"
         #echo "lxd-image import|export"
@@ -20,45 +22,51 @@ if [[ "$1" == "import" ]]
 then
 	if [[ $2 ]]
 	then
-		echo cool
+		if [[ $3 ]]
+		then
+			CONTAINER="$2"
+			FILENAME="$3"
+		else
+			exit
+		fi
 	else
 		exit
 	fi
-	CONTAINER="$2"
-	FILENAME="$3"
+	echo "Executing :"
+	echo -e "${BRed}lxc image import $FILENAME --alias $CONTAINER || exit${Reset}"
+	echo -e "${BRed}lxc launch $CONTAINER $CONTAINER${Reset}"
+	echo -e "${BRed}lxc stop $CONTAINER${Reset}"
+	echo -e "${BRed}lxc image delete $CONTAINER${Reset}"
+	echo -e "${BRed}lxc start $CONTAINER${Reset}"
+	echo -e "${BRed}lxc exec $CONTAINER -- bash${Reset}"
 	lxc image import $FILENAME --alias $CONTAINER || exit
 	lxc launch $CONTAINER $CONTAINER
 	lxc stop $CONTAINER
 	lxc image delete $CONTAINER
-	lxc profile create gui
-	cat << EOF > .gui.txt
-config:
-  environment.DISPLAY: :0
-  raw.idmap: both 1000 1000
-description: GUI LXD profile
-devices:
-  X0:
-    path: /tmp/.X11-unix/X0
-    source: /tmp/.X11-unix/X0
-    type: disk
-  my_gpu:
-    type: gpu
-name: gui
-EOF
-
-	lxc profile edit gui < .gui.txt
-	rm .gui.txt
-	lxc profile add $CONTAINER gui
-	lxc config set $CONTAINER security.privileged=true
 	lxc start $CONTAINER
 	lxc exec $CONTAINER -- bash
 fi
 ###############################################################################
 if [[ "$1" == "export" ]]
 then
-	CONTAINER="$2"
-	mkdir LXC_BACKUP_$CONTAINER
-	cd LXC_BACKUP_$CONTAINER
+	if [[ $2 ]]
+	then
+		CONTAINER="$2"
+	else
+		echo -e "Select ${BRed}container${Reset} to export :"
+		lxc list | awk '{print $2}' | sed "/^$/d;/^NAME$/d" | awk '{print NR, "->",$0}' > .CHOICE
+		SELECT
+
+		CONTAINER=$(echo $CHOICE | awk '{print $3}')
+	fi
+
+	DATE=$(date +%Y_%m_%d_%H_%M_%S)
+	mkdir LXD_$CONTAINER$DATE
+	cd LXD_$CONTAINER$DATE
+	echo "Executing :"
+	echo -e "${BRed}lxc publish $CONTAINER --alias $CONTAINER -f || exit${Reset}"
+	echo -e "${BRed}lxc image export $CONTAINER .${Reset}"
+	echo -e "${BRed}lxc image delete $CONTAINER${Reset}"
 	lxc publish $CONTAINER --alias $CONTAINER -f || exit
 	lxc image export $CONTAINER .
 	lxc image delete $CONTAINER

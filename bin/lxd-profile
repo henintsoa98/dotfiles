@@ -1,0 +1,248 @@
+#!/bin/bash
+
+#
+# ONJANIAINA Henintsoa Stephana
+# 29/11/23
+#
+
+source color
+
+SELECT ()
+{
+	echo -ne "$BYellow"
+	while read line
+	do
+		echo -e "\t$line"
+	done < .CHOICE
+	echo -ne "$Reset"
+
+	echo -ne "Your choice : $BCyan"
+	read CHOICES
+	echo -ne "$Reset"
+
+	while read line
+	do
+		INPUT=$(echo "$line" |grep "^$CHOICES ->")
+		if [[ "$INPUT" ]]
+		then
+			CHOICE="$INPUT"
+		fi
+	done < .CHOICE
+
+	rm .CHOICE
+}
+
+###############################################################################
+if [[ $# -eq 0 || "$1" == "--help" || "$1" == "-h" ]]
+then
+	echo "usage :"
+	echo "lxd-profile list|add|del"
+	echo "lxd-profile list|add|del <container_name>"
+	echo "lxd-profile add|del <container_name> <profile_name>"
+	echo "lxd-profile create|delete|show|edit|copy"
+	echo "lxd-profile create|delete|show|edit|copy <profile_name>"
+	echo "lxd-profile copy <profile_name> <new_profile_name>"
+fi
+###############################################################################
+PROFILES=$(lxc profile list| sed "/USED BY/d" | grep "^|" |awk '{print $2}')
+for PROFILE in $PROFILES
+do
+	case "$PROFILE" in
+	"gui")
+		GUI="EXIST"
+		;;
+	"future_case")
+		FUTURE_CASE="EXIST"
+		;;
+	esac
+done
+if [[ ! $GUI ]]
+then
+	echo -e "$BYellow ${BRed}create gui$Reset"
+	lxc profile create gui
+	cat <<EOF >.gui.txt
+config:
+  environment.DISPLAY: :0
+  raw.idmap: both 1000 1000
+description: GUI LXD profile
+devices:
+  X0:
+    path: /tmp/.X11-unix/X0
+    source: /tmp/.X11-unix/X0
+    type: disk
+  my_gpu:
+    type: gpu
+name: gui
+EOF
+	lxc profile edit gui < .gui.txt
+	rm .gui.txt
+fi
+if [[ ! $FUTURE_CASE ]]
+then
+	# FOR FUTURE CASE
+	sleep 0
+fi
+###############################################################################
+if [[ "$1" == "list" ]]
+then
+	if [[ $2 ]]
+	then
+		echo -e "Executing and filter : ${BRed}lxc profile show $2${Reset}"
+		echo -e "$BRed$2$Reset is used by :$BYellow"
+		lxc profile show $2 | grep "^-"
+		echo -ne "$Reset"
+	else
+		for PROFILE in $PROFILES
+		do
+			echo -e "Executing and filter : ${BRed}lxc profile show $PROFILE${Reset}"
+			echo -e "$BRed$PROFILE$Reset is used by :$BYellow"
+			lxc profile show $PROFILE | grep "^-"
+			echo -ne "$Reset"
+		done
+	fi
+fi
+###############################################################################
+if [[ "$1" == "add" ]]
+then
+	if [[ $2 ]]
+	then
+		CONTAINER="$2"
+	else
+		echo -e "Select ${BRed}container${Reset} to add profile :"
+		lxc list | awk '{print $2}' | sed "/^$/d;/^NAME$/d" | awk '{print NR, "->",$0}' > .CHOICE
+		SELECT
+
+		CONTAINER=$(echo $CHOICE | awk '{print $3}')
+	fi
+
+	if [[ $3 ]]
+	then
+		PROFILE="$3"
+	else
+		echo -e "Select the ${BRed}profile${Reset} to add in container :"
+		lxc profile list| sed "/USED BY/d" | grep "^|" |awk '{print $2}' |awk '{print NR, "->",$0}' > .CHOICE
+		SELECT
+
+		PROFILE=$(echo $CHOICE | awk '{print $3}')
+	fi
+
+	echo -e "Executing : ${BRed}lxc profile add $CONTAINER $PROFILE${Reset}"
+	lxc profile add $CONTAINER $PROFILE
+fi
+###############################################################################
+if [[ "$1" == "del" ]]
+then
+	if [[ $2 ]]
+	then
+		CONTAINER="$2"
+	else
+		echo -e "Select ${BRed}container${Reset} to remove profile :"
+		lxc list | awk '{print $2}' | sed "/^$/d;/^NAME$/d" | awk '{print NR, "->",$0}' > .CHOICE
+		SELECT
+
+		CONTAINER=$(echo $CHOICE | awk '{print $3}')
+	fi
+
+	if [[ $3 ]]
+	then
+		PROFILE="$3"
+	else
+		echo -e "Select the ${BRed}profile${Reset} to remove in container :"
+		lxc config show $CONTAINER |grep "^-" | awk '{print $2}' |awk '{print NR, "->",$0}' > .CHOICE
+		SELECT
+
+		PROFILE=$(echo $CHOICE | awk '{print $3}')
+	fi
+
+	echo -e "Executing : ${BRed}lxc profile remove $CONTAINER $PROFILE${Reset}"
+	lxc profile remove $CONTAINER $PROFILE
+fi
+###############################################################################
+if [[ "$1" == "create" ]]
+then
+	if [[ $2 ]]
+	then
+		PROFILE="$2"
+	else
+		echo -ne "Enter the name of new ${BRed}profile$Reset : "
+		read PROFILE
+	fi
+
+	echo -e "Executing : ${BRed}lxc profile create $PROFILE${Reset}"
+	lxc profile create $PROFILE
+fi
+###############################################################################
+if [[ "$1" == "delete" ]]
+then
+	if [[ $2 ]]
+	then
+		PROFILE="$2"
+	else
+		echo -e "Select the ${BRed}profile${Reset} to delete :"
+		lxc profile list| sed "/USED BY/d" | grep "^|" |awk '{print $2}' |awk '{print NR, "->",$0}' > .CHOICE
+		SELECT
+
+		PROFILE=$(echo $CHOICE | awk '{print $3}')
+	fi
+
+	echo -e "Executing : ${BRed}lxc profile delete $PROFILE${Reset}"
+	lxc profile delete $PROFILE
+fi
+
+###############################################################################
+if [[ "$1" == "show" ]]
+then
+	if [[ $2 ]]
+	then
+		PROFILE="$2"
+	else
+		echo -e "Select the ${BRed}profile${Reset} to show :"
+		lxc config show $CONTAINER |grep "^-" | awk '{print $2}' |awk '{print NR, "->",$0}' > .CHOICE
+		SELECT
+
+		PROFILE=$(echo $CHOICE | awk '{print $3}')
+	fi
+	echo -e "Executing : ${BRed}lxc profile show $PROFILE${Reset}"
+	lxc profile show $PROFILE
+fi
+###############################################################################
+if [[ "$1" == "edit" ]]
+then
+	if [[ $2 ]]
+	then
+		PROFILE="$2"
+	else
+		echo -e "Select the ${BRed}profile${Reset} to edit :"
+		lxc config show $CONTAINER |grep "^-" | awk '{print $2}' |awk '{print NR, "->",$0}' > .CHOICE
+		SELECT
+
+		PROFILE=$(echo $CHOICE | awk '{print $3}')
+	fi
+	echo -e "Executing : ${BRed}lxc profile edit $PROFILE${Reset}"
+	lxc profile edit $PROFILE
+fi
+###############################################################################
+if [[ "$1" == "copy" ]]
+then
+	if [[ $2 ]]
+	then
+		PROFILE="$2"
+	else
+		echo -e "Select the ${BRed}profile${Reset} to copy :"
+		lxc config show $CONTAINER |grep "^-" | awk '{print $2}' |awk '{print NR, "->",$0}' > .CHOICE
+		SELECT
+
+		PROFILE=$(echo $CHOICE | awk '{print $3}')
+	fi
+
+	if [[ $3 ]]
+	then
+		NEW="$3"
+	else
+		echo -ne "Enter the name of new ${BRed}profile$Reset : "
+		read NEW
+	fi
+
+	echo -e "Executing : ${BRed}lxc profile copy $PROFILE $NEW${Reset}"
+	lxc profile copy $PROFILE $NEW
+fi

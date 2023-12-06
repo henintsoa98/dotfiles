@@ -1,0 +1,46 @@
+#!/bin/bash
+
+#
+# ONJANIAINA Henintsoa Stephana
+# 05/12/23
+#
+
+source color
+
+###############################################################################
+if [[ $# -eq 0 || "$1" == "--help" || "$1" == "-h" ]]
+then
+	echo "usage :"
+	echo "lxd-config <container name> set|unset <attribute>"
+fi
+
+if [[ $3 ]]
+then
+	CONTAINER="$1"
+	case "$2" in
+	"set")
+		VALUE="true"
+		;;
+	"unset")
+		VALUE="false"
+		;;
+	*)
+		exit
+		;;
+	esac
+
+	case "$3" in
+	"privileged")
+		PARAMETER="security.privileged="
+		;;
+	"nesting")
+		PARAMETER="security.nesting="
+		;;
+	*)
+		exit
+		;;
+	esac
+
+	echo -e "Executing : ${BRed}lxc config set $CONTAINER $PARAMETER$VALUE${Reset}"
+	lxc config set $CONTAINER $PARAMETER$VALUE
+fi
