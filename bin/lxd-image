@@ -61,8 +61,9 @@ then
 	fi
 
 	DATE=$(date +%Y_%m_%d_%H_%M_%S)
-	mkdir LXD_$CONTAINER$DATE
-	cd LXD_$CONTAINER$DATE
+	ARCH=$(uname -m)
+	mkdir LXD_${CONTAINER}_${ARCH}_${DATE}
+	cd LXD_${CONTAINER}_${ARCH}_${DATE}
 	echo "Executing :"
 	echo -e "${BRed}lxc publish $CONTAINER --alias $CONTAINER -f || exit${Reset}"
 	echo -e "${BRed}lxc image export $CONTAINER .${Reset}"
