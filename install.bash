@@ -4,13 +4,13 @@
 INSTALL_MINIMAL_ENV ()
 {
 	echo -e "\033[1;31m# INSTALL MINIMAL ENV #\033[0m"; sleep 2
-	sudo su -c "apt-get install alsa-utils command-not-found curl git mdp modemmanager network-manager openssh-server openssh-client sshfs sudo vim zsh"
+	sudo su -c "apt-get install alsa-utils asciinema command-not-found curl git mdp modemmanager network-manager openssh-server openssh-client sshfs sudo vim zsh"
 }
 
 INSTALL_MINIMAL_ENV_CONTAINER ()
 {
 	echo -e "\033[1;31m# INSTALL MY MINIMAL ENV #\033[0m"; sleep 2
-	sudo su -c "apt-get install command-not-found curl git openssh-server openssh-client sshfs sudo vim zsh"
+	sudo su -c "apt-get install asciinema command-not-found curl git openssh-server openssh-client sshfs sudo vim zsh"
 }
 
 INSTALL_DEV_ENV ()
