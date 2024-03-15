@@ -1,3 +1,6 @@
+# unmaintained
+It is used for i3 with Xorg, I'm switching to wayland with [Hyprland](https://github.com/henintsoa98/hyprland.debian12) that support Xorg apps, and [additional package with this dotfiles](https://github.com/henintsoa98/dotfiles.debian12)
+
 # NOTICE
 WORK PERFECT ON DEBIAN 12,
 ON OTHER DISTRO, OTHER PACKAGE MAY HAVE DIFFERENT NAME (NOT TESTED)
